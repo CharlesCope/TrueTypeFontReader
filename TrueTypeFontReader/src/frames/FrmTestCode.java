@@ -19,7 +19,9 @@ import javax.swing.border.EmptyBorder;
 // http://www.udel.edu/CIS/software/dist/batik-src/xml-batik/sources/org/apache/batik/svggen/
 
 
+
 import Fonts.ChcFont;
+import Fonts.PDFFont;
 
 public class FrmTestCode extends JFrame {
 	private static final long serialVersionUID = 3607491399201743045L;
@@ -77,6 +79,21 @@ public class FrmTestCode extends JFrame {
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
 		lblNewLabel.setBounds(15, 12, 262, 20);
 		contentPane.add(lblNewLabel);
+		
+		JButton btnTestPDFontCode = new JButton("Test PDF Font Code");
+		btnTestPDFontCode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				PDFFont myTestCode = new PDFFont();
+				
+				myTestCode.setSerifFlag(true); //2
+				myTestCode.setNonsymbolicFlag(true); //6
+				myTestCode.setForceBoldFlag(true);  //19
+				// Should Get Value of /Flags 262178
+				System.out.println("The Value return from Flags is " + myTestCode.getFontDescriptorFlags());
+			}
+		});
+		btnTestPDFontCode.setBounds(428, 59, 129, 30);
+		contentPane.add(btnTestPDFontCode);
 		// Give them a list to choose from.
 		listFonts();
 	}
@@ -175,7 +192,10 @@ public class FrmTestCode extends JFrame {
 		strToDisplay += "Italic Angle > ";
 		strToDisplay += String.valueOf(myFont.getPostTable().getItalicAngle());
 		
-		
+		strToDisplay += JavaNewLine;
+		strToDisplay += "PostScript Name (PDF BaseFont) > ";
+		short PostScriptId = 6;
+		strToDisplay += String.valueOf(myFont.getNameTable().getRecord(PostScriptId));
 		
 		
 		// Here is where we build the output of the code.
