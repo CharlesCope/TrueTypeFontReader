@@ -275,8 +275,7 @@ public class PostTable implements Table {
 	private short underlinePosition;
     @SuppressWarnings("unused")
 	private short underlineThickness;
-    @SuppressWarnings("unused")
-	private int isFixedPitch;
+   	private int isFixedPitch;
     @SuppressWarnings("unused")
 	private int minMemType42;
     @SuppressWarnings("unused")
@@ -345,12 +344,20 @@ public class PostTable implements Table {
         }
     }
 
+    public boolean getIsFixedPitch(){
+    	//Set to 0 if the font is proportionally spaced 
+    	if(isFixedPitch == 0){return false;}
+    	//mono-spaced
+    	else{return true;}
+    	
+    }
+    
     /** Get the table type, as a table directory value.
      * @return The table type
      */
-    public int getType() {
-        return post;
-    }
+    public int getType() {return post; }
 
     public int getItalicAngle(){return italicAngle;}
+    
+    
 }

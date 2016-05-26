@@ -83,13 +83,22 @@ public class FrmTestCode extends JFrame {
 		JButton btnTestPDFontCode = new JButton("Test PDF Font Code");
 		btnTestPDFontCode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				PDFFont myTestCode = new PDFFont();
+				String fileName = path + File.separator + "Fonts"+ File.separator +(String) cboFonts.getSelectedItem();
+				if(fileName.isEmpty()){return;}
+				ChcFont myChcFont = new ChcFont().create(fileName);
 				
-				myTestCode.setSerifFlag(true); //2
-				myTestCode.setNonsymbolicFlag(true); //6
-				myTestCode.setForceBoldFlag(true);  //19
-				// Should Get Value of /Flags 262178
-				System.out.println("The Value return from Flags is " + myTestCode.getFontDescriptorFlags());
+				PDFFont myPDFFont = new PDFFont();
+				// Need to find the data in file and set flags.
+				myPDFFont.setFixedPitchFlag(myChcFont.getPostTable().getIsFixedPitch());
+				//myPDFFont.setSerifFlag(setFlag);
+				//myPDFFont.setSymbolicFlag(setFlag);
+				//myPDFFont.setScriptFlag(setFlag);
+				//myPDFFont.setNonsymbolicFlag(setFlag);
+				//myPDFFont.setItalicFlag(setFlag);
+				//myPDFFont.setAllCapFlag(setFlag);
+				//myPDFFont.setSmallCapFlag(setFlag);
+				//myPDFFont.setForceBoldFlag(setFlag);
+				
 			}
 		});
 		btnTestPDFontCode.setBounds(428, 59, 129, 30);

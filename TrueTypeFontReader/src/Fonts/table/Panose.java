@@ -27,45 +27,25 @@ public class Panose {
 	    bXHeight = panose[9];
 	  }
 
-	  public byte getFamilyType() {
-	    return bFamilyType;
-	  }
+	  public byte getFamilyType() {return bFamilyType;}
 	  
-	  public byte getSerifStyle() {
-	    return bSerifStyle;
-	  }
+	  public byte getSerifStyle() {return bSerifStyle;}
 	  
-	  public byte getWeight() {
-	    return bWeight;
-	  }
+	  public byte getWeight() {return bWeight;}
 
-	  public byte getProportion() {
-	    return bProportion;
-	  }
+	  public byte getProportion() {return bProportion;}
 	  
-	  public byte getContrast() {
-	    return bContrast;
-	  }
+	  public byte getContrast() {return bContrast;}
 	  
-	  public byte getStrokeVariation() {
-	    return bStrokeVariation;
-	  }
+	  public byte getStrokeVariation() {return bStrokeVariation;}
 	  
-	  public byte getArmStyle() {
-	    return bArmStyle;
-	  }
+	  public byte getArmStyle() {return bArmStyle;}
 	  
-	  public byte getLetterForm() {
-	    return bLetterform;
-	  }
+	  public byte getLetterForm() {return bLetterform;}
 	  
-	  public byte getMidline() {
-	    return bMidline;
-	  }
+	  public byte getMidline() {return bMidline;}
 	  
-	  public byte getXHeight() {
-	    return bXHeight;
-	  }
+	  public byte getXHeight() {return bXHeight;}
 	  
 	  public String toString() {
 	    StringBuffer sb = new StringBuffer();
