@@ -20,8 +20,10 @@ import javax.swing.border.EmptyBorder;
 
 
 
+
 import Fonts.ChcFont;
 import Fonts.PDFFont;
+import Fonts.fontToPDFfont;
 
 public class FrmTestCode extends JFrame {
 	private static final long serialVersionUID = 3607491399201743045L;
@@ -84,21 +86,9 @@ public class FrmTestCode extends JFrame {
 		btnTestPDFontCode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String fileName = path + File.separator + "Fonts"+ File.separator +(String) cboFonts.getSelectedItem();
-				if(fileName.isEmpty()){return;}
-				ChcFont myChcFont = new ChcFont().create(fileName);
 				
-				PDFFont myPDFFont = new PDFFont();
-				// Need to find the data in file and set flags.
-				myPDFFont.setFixedPitchFlag(myChcFont.getPostTable().getIsFixedPitch());
-				//myPDFFont.setSerifFlag(setFlag);
-				//myPDFFont.setSymbolicFlag(setFlag);
-				//myPDFFont.setScriptFlag(setFlag);
-				//myPDFFont.setNonsymbolicFlag(setFlag);
-				//myPDFFont.setItalicFlag(setFlag);
-				//myPDFFont.setAllCapFlag(setFlag);
-				//myPDFFont.setSmallCapFlag(setFlag);
-				//myPDFFont.setForceBoldFlag(setFlag);
-				
+				PDFFont myPDFFont = fontToPDFfont.ConvertFontFileToPDFFont(fileName);
+				txtDisplayResults.setText(myPDFFont.toString());
 			}
 		});
 		btnTestPDFontCode.setBounds(428, 59, 129, 30);

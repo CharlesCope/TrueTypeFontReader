@@ -1,6 +1,8 @@
 package Fonts;
 
 public class PDFFont {
+	
+	private String strBaseFontName = "";
 	private boolean blnFixedPitchFlag = false;
 	private boolean blnSerifFlag = false;
 	private boolean blnSymbolicFlag = false;
@@ -14,6 +16,7 @@ public class PDFFont {
 	/**The Constructor*/
 	public PDFFont(){}
 	
+	public String getFontBaseName(){return strBaseFontName;}
 	public String getFontDescriptorFlags(){
 		/** The value of the Flags entry in a font descriptor is an unsigned 32-bit(big-endian integer containing
 		 * flags specifying various characteristics of the font.
@@ -42,6 +45,9 @@ public class PDFFont {
 		return "/Flags " + intFlagsVaule;
 		
 	}
+	
+	public void setFontBaseName(String strName){strBaseFontName = strName;}
+	
 	/** Our Flags for the font Descriptor */
 	public void setFixedPitchFlag(boolean setFlag){blnFixedPitchFlag = setFlag;}
 	
@@ -61,9 +67,18 @@ public class PDFFont {
 	
 	public void setForceBoldFlag(boolean setFlag){blnForceBoldFlag = setFlag;}
 	
+	// Need a toString Method for debugging and development
 	
-	
-	
+	public String toString(){
+		String JavaNewLine = System.getProperty("line.separator");
+		String strToString = "";
+		
+		strToString = "BaseFont Name >> " + strBaseFontName + JavaNewLine;
+		strToString += "Flags Values >> " + getFontDescriptorFlags() + JavaNewLine;
+		
+		return strToString;
+		
+	}
 	
 	
 	
