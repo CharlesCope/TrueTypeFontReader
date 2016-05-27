@@ -77,7 +77,7 @@ public class PDFFont {
 	 * diagonally opposite corners. Typically, the array takes the form [ lowerLeftx lowerLefty upperRightx upperRighty ]
 	 * */
 	public String getFontBBox(){
-		// Results not matching data in file.test
+		// Results not matching data in file
 		int lowerLeftx = 0;
 		int lowerLefty = 0;
 		int upperRightx = 0;
