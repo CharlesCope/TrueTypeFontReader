@@ -54,13 +54,12 @@ public class fontToPDFfont {
 		if (strStyle.toUpperCase().contains("ITALI")== true){myPDFFont.setItalicFlag(true);}
 		else{myPDFFont.setItalicFlag(false);}
 		
+		myPDFFont.setScriptFlag(myChcFont.getOS2Table().getIsScript());
 		myPDFFont.setSerifFlag(myChcFont.getOS2Table().getIsSerif());		
 		
 		
 		// Need to find the data in file and set flags.
-		//myPDFFont.setScriptFlag(setFlag);
 		
-		//
 		//myPDFFont.setAllCapFlag(setFlag);
 		//myPDFFont.setSmallCapFlag(setFlag);
 		//myPDFFont.setForceBoldFlag(setFlag);

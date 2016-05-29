@@ -142,16 +142,18 @@ public class Os2Table implements Table {
     
     public boolean getIsSerif(){
     	/** The high byte of this field contains the family class, while the low byte contains the family subclass.*/
-    	Short sFamilyClass = getFamilyClass();
-		byte [] data = new byte [2];
-		data[0] = (byte) ((sFamilyClass & 0xFF00) >> 8); // High
-		data[1] = (byte) (sFamilyClass & 0xFF); // Low
-		int intHighBit = Byte.toUnsignedInt(data[0]);
-
+    	byte data = (byte) ((getFamilyClass() & 0xFF00) >> 8);
+		int intHighBit = Byte.toUnsignedInt(data);
 		if (intHighBit == 8){ return false;} 
     	return true;
     	
     }
-
+    public boolean getIsScript(){
+    	byte data = (byte) ((getFamilyClass() & 0xFF00) >> 8);
+    	int intHighBit = Byte.toUnsignedInt(data);
+    	if (intHighBit == 10){ return true;}
+		return false; 
+    }
+    
     public int getType() {return OS_2;}
 }
