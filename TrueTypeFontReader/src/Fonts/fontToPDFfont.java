@@ -6,6 +6,7 @@ import Fonts.table.NameTable;
 /** Wanted a place to run code not tied to the GUI  */
 public class fontToPDFfont {
 	private static String OS = null;
+	private static int intUnitsPerEM; 
 	
 	public static PDFFont ConvertFontFileToPDFFont(String strFile){
 		if(strFile.isEmpty()){return null;}
@@ -13,8 +14,8 @@ public class fontToPDFfont {
 		ChcFont myChcFont = new ChcFont().create(strFile);
 		// Then create the PDFFont Object to get data from True Type Font Object
 		PDFFont myPDFFont = new PDFFont();
-	
 		myPDFFont.setUnitsPerEm(myChcFont.getHeadTable().getUnitsPerEm());
+		intUnitsPerEM = myPDFFont.getUnitsPerEm();
 		myPDFFont.setBoundingBoxLowerLeftx(myChcFont.getHeadTable().getXMin());
 		myPDFFont.setBoundingBoxLowerLefty(myChcFont.getHeadTable().getYMin());
 		myPDFFont.setBoundingBoxUpperRightx(myChcFont.getHeadTable().getXMax());
@@ -57,12 +58,27 @@ public class fontToPDFfont {
 		myPDFFont.setScriptFlag(myChcFont.getOS2Table().getIsScript());
 		myPDFFont.setSerifFlag(myChcFont.getOS2Table().getIsSerif());		
 		
-		
 		// Need to find the data in file and set flags.
-		
 		//myPDFFont.setAllCapFlag(setFlag);
 		//myPDFFont.setSmallCapFlag(setFlag);
 		//myPDFFont.setForceBoldFlag(setFlag);
+
+		
+		Glyph MissingWidth = myChcFont.getGlyph(0);
+		myPDFFont.setMissingWidth(pdfScalingFormula(MissingWidth.advanceWidth,intUnitsPerEM));
+		
+		int intVersion = myChcFont.getOS2Table().getVersion();
+		
+		if(intVersion >= 2){
+			myPDFFont.setCapHeight(myChcFont.getOS2Table().getCapHeight());
+			myPDFFont.setXHeight(myChcFont.getOS2Table().getXHeight());
+		}
+		/** NOTE: These are just rule-of-thumb values,in case the xHeight and CapHeight fields aren't available.*/
+		else{
+			System.out.println("Got Here");
+			myPDFFont.setCapHeight((int) (.7 * intUnitsPerEM));
+			myPDFFont.setXHeight((int) (.5 * intUnitsPerEM));
+		}
 		
 		
 		
@@ -70,7 +86,13 @@ public class fontToPDFfont {
 		return myPDFFont;
 		
 	}
-	
+	   
+    public static int pdfScalingFormula(int intAdvanceWidth, int intUnitsPerEm){
+    	// Avoid divide by zero error.
+    	if(intAdvanceWidth == 0 ){return 0;}
+    	
+    	return (intAdvanceWidth * 1000) / intUnitsPerEm;
+    }
 	public static String getOsName(){
 		// The operating system of the host that my Java program is running 
 		if(OS == null) { OS = System.getProperty("os.name"); }

@@ -12,7 +12,7 @@ public class HeadTable implements Table {
     private int checkSumAdjustment;
     private int magicNumber;
     private short flags;
-    private short unitsPerEm;
+    private static short unitsPerEm;
     private long created;
     private long modified;
     private short xMin;

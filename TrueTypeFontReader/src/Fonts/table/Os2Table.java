@@ -37,6 +37,10 @@ public class Os2Table implements Table {
     private int usWinDescent;
     private int ulCodePageRange1;
     private int ulCodePageRange2;
+    private short sxHeight;
+    private short sCapHeight;
+    private int usDefaultChar;
+    private int usBreakChar;
 
     protected Os2Table(DirectoryEntry de,RandomAccessFile raf) throws IOException {
         raf.seek(de.getOffset());
@@ -74,6 +78,10 @@ public class Os2Table implements Table {
         usWinDescent = raf.readUnsignedShort();
         ulCodePageRange1 = raf.readInt();
         ulCodePageRange2 = raf.readInt();
+        sxHeight = raf.readShort();
+        sCapHeight = raf.readShort();
+        usDefaultChar = raf.readUnsignedShort();
+        usBreakChar = raf.readUnsignedShort();
     }
 
     public int getVersion() {return version;}
@@ -139,6 +147,17 @@ public class Os2Table implements Table {
     public int getCodePageRange1() {return ulCodePageRange1;}
 
     public int getCodePageRange2() {return ulCodePageRange2;}
+    
+    public short getXHeight(){return sxHeight;}
+    
+    public short getCapHeight(){return sCapHeight;}
+    
+    public int getDefaultChar(){return usDefaultChar;}
+    
+    public int getWinBreakChar(){return usBreakChar;}
+    
+    
+    
     
     public boolean getIsSerif(){
     	/** The high byte of this field contains the family class, while the low byte contains the family subclass.*/

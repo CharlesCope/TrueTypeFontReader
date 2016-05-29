@@ -22,6 +22,10 @@ public class PDFFont {
 	private int BBoxLowerLefty = 0;
 	private int BBoxUpperRightx = 0;
 	private int BBoxUpperRighty = 0;
+	private int intMissingWidth = 0;
+	private int intCapHeight = 0;
+	private int intXHeight = 0;;
+
 	
 	
 	/**The Constructor*/
@@ -97,10 +101,14 @@ public class PDFFont {
 		return strFontBBox;
 		
 	}
+	
+	
+	
 	public int[] getGlyphWidthsToPDFWidths(){
 		return null;
 		
 	}
+	
 	public void setFontBaseName(String strName){strBaseFontName = strName;}
 	
 	/** Our Flags for the font Descriptor */
@@ -125,6 +133,15 @@ public class PDFFont {
 	public int getUnitsPerEm() {return intUnitsPerEm;}
 	
 	public void setUnitsPerEm(int UnitsPerEm) {intUnitsPerEm = UnitsPerEm;}
+	
+	public void setMissingWidth(int missingWidth){intMissingWidth = missingWidth;}
+	public String getMissingWidth(){return "/MissingWidth " + intMissingWidth;}
+	
+	public void setCapHeight(int capHeight){intCapHeight = capHeight;}
+	public String getCapHeight(){return "/CapHeight " + intCapHeight;}
+	
+	public void setXHeight(int xHeight){intXHeight  = xHeight;}
+	public String getXHeight(){return "/XHeight " + intXHeight;}
 	
 	public int getBoundingBoxLowerLeftx() {return BBoxLowerLeftx;}
 	public int getBoundingBoxLowerLefty() {return BBoxLowerLefty;}
@@ -161,6 +178,9 @@ public class PDFFont {
 		strToString += "Flags Set Values Small Caps >> " + blnSmallCapFlag + JavaNewLine;
 		strToString += "Flags Set Values Force Bold >> " + blnForceBoldFlag + JavaNewLine;
 		strToString += "Font Bounding Box >> " + getFontBBox() + JavaNewLine;
+		strToString += "Character Missing Width >> " + getMissingWidth() + JavaNewLine;
+		strToString += "Capital letters Height >> " + getCapHeight() + JavaNewLine;
+		strToString += "Lower case x Height >> " + getXHeight() + JavaNewLine;
 		return strToString;
 		
 	}
