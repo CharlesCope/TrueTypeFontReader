@@ -151,6 +151,15 @@ public class PDFFont {
 		
 		strToString = "BaseFont Name >> " + strBaseFontName + JavaNewLine;
 		strToString += "Flags Values >> " + getFontDescriptorFlags() + JavaNewLine;
+		strToString += "Flags Set Values Fixed Pitch >> " + blnFixedPitchFlag + JavaNewLine;
+		strToString += "Flags Set Values Serif >> " + blnSerifFlag + JavaNewLine;
+		strToString += "Flags Set Values Symbolic >> " + blnSymbolicFlag + JavaNewLine;
+		strToString += "Flags Set Values Non Symbolic >> " + blnNonsymbolicFlag + JavaNewLine;
+		strToString += "Flags Set Values Script >> " + blnScriptFlag + JavaNewLine;
+		strToString += "Flags Set Values Italic >> " + blnItalicFlag + JavaNewLine;
+		strToString += "Flags Set Values All Caps >> " + blnAllCapFlag + JavaNewLine;
+		strToString += "Flags Set Values Small Caps >> " + blnSmallCapFlag + JavaNewLine;
+		strToString += "Flags Set Values Force Bold >> " + blnForceBoldFlag + JavaNewLine;
 		strToString += "Font Bounding Box >> " + getFontBBox() + JavaNewLine;
 		return strToString;
 		

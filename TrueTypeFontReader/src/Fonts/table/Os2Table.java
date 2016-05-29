@@ -76,135 +76,82 @@ public class Os2Table implements Table {
         ulCodePageRange2 = raf.readInt();
     }
 
-    public int getVersion() {
-        return version;
+    public int getVersion() {return version;}
+
+    public short getAvgCharWidth() {return xAvgCharWidth;}
+
+    public int getWeightClass() {return usWeightClass;}
+
+    public int getWidthClass() {return usWidthClass;}
+
+    public short getLicenseType() {return fsType;}
+
+    public short getSubscriptXSize() {return ySubscriptXSize;}
+
+    public short getSubscriptYSize() {return ySubscriptYSize;}
+
+    public short getSubscriptXOffset() {return ySubscriptXOffset;}
+
+    public short getSubscriptYOffset() {return ySubscriptYOffset;}
+
+    public short getSuperscriptXSize() {return ySuperscriptXSize;}
+
+    public short getSuperscriptYSize() {return ySuperscriptYSize;}
+
+    public short getSuperscriptXOffset() {return ySuperscriptXOffset;}
+
+    public short getSuperscriptYOffset() {return ySuperscriptYOffset;}
+
+    public short getStrikeoutSize() {return yStrikeoutSize;}
+
+    public short getStrikeoutPosition() {return yStrikeoutPosition;}
+
+    public short getFamilyClass() {return sFamilyClass;}
+
+    public Panose getPanose() {return panose;}
+
+    public int getUnicodeRange1() {return ulUnicodeRange1;}
+
+    public int getUnicodeRange2() {return ulUnicodeRange2;}
+
+    public int getUnicodeRange3() {return ulUnicodeRange3;}
+
+    public int getUnicodeRange4() {return ulUnicodeRange4;}
+
+    public int getVendorID() {return achVendorID;}
+
+    public short getSelection() {return fsSelection;}
+
+    public int getFirstCharIndex() {return usFirstCharIndex;}
+
+    public int getLastCharIndex() {return usLastCharIndex;}
+
+    public short getTypoAscender() {return sTypoAscender;}
+
+    public short getTypoDescender() {return sTypoDescender;}
+
+    public short getTypoLineGap() {return sTypoLineGap;}
+
+    public int getWinAscent() {return usWinAscent;}
+
+    public int getWinDescent() {return usWinDescent;}
+
+    public int getCodePageRange1() {return ulCodePageRange1;}
+
+    public int getCodePageRange2() {return ulCodePageRange2;}
+    
+    public boolean getIsSerif(){
+    	/** The high byte of this field contains the family class, while the low byte contains the family subclass.*/
+    	Short sFamilyClass = getFamilyClass();
+		byte [] data = new byte [2];
+		data[0] = (byte) ((sFamilyClass & 0xFF00) >> 8); // High
+		data[1] = (byte) (sFamilyClass & 0xFF); // Low
+		int intHighBit = Byte.toUnsignedInt(data[0]);
+
+		if (intHighBit == 8){ return false;} 
+    	return true;
+    	
     }
 
-    public short getAvgCharWidth() {
-        return xAvgCharWidth;
-    }
-
-    public int getWeightClass() {
-        return usWeightClass;
-    }
-
-    public int getWidthClass() {
-        return usWidthClass;
-    }
-
-    public short getLicenseType() {
-        return fsType;
-    }
-
-    public short getSubscriptXSize() {
-        return ySubscriptXSize;
-    }
-
-    public short getSubscriptYSize() {
-        return ySubscriptYSize;
-    }
-
-    public short getSubscriptXOffset() {
-        return ySubscriptXOffset;
-    }
-
-    public short getSubscriptYOffset() {
-        return ySubscriptYOffset;
-    }
-
-    public short getSuperscriptXSize() {
-        return ySuperscriptXSize;
-    }
-
-    public short getSuperscriptYSize() {
-        return ySuperscriptYSize;
-    }
-
-    public short getSuperscriptXOffset() {
-        return ySuperscriptXOffset;
-    }
-
-    public short getSuperscriptYOffset() {
-        return ySuperscriptYOffset;
-    }
-
-    public short getStrikeoutSize() {
-        return yStrikeoutSize;
-    }
-
-    public short getStrikeoutPosition() {
-        return yStrikeoutPosition;
-    }
-
-    public short getFamilyClass() {
-        return sFamilyClass;
-    }
-
-    public Panose getPanose() {
-        return panose;
-    }
-
-    public int getUnicodeRange1() {
-        return ulUnicodeRange1;
-    }
-
-    public int getUnicodeRange2() {
-        return ulUnicodeRange2;
-    }
-
-    public int getUnicodeRange3() {
-        return ulUnicodeRange3;
-    }
-
-    public int getUnicodeRange4() {
-        return ulUnicodeRange4;
-    }
-
-    public int getVendorID() {
-        return achVendorID;
-    }
-
-    public short getSelection() {
-        return fsSelection;
-    }
-
-    public int getFirstCharIndex() {
-        return usFirstCharIndex;
-    }
-
-    public int getLastCharIndex() {
-        return usLastCharIndex;
-    }
-
-    public short getTypoAscender() {
-        return sTypoAscender;
-    }
-
-    public short getTypoDescender() {
-        return sTypoDescender;
-    }
-
-    public short getTypoLineGap() {
-        return sTypoLineGap;
-    }
-
-    public int getWinAscent() {
-        return usWinAscent;
-    }
-
-    public int getWinDescent() {
-        return usWinDescent;
-    }
-
-    public int getCodePageRange1() {
-        return ulCodePageRange1;
-    }
-
-    public int getCodePageRange2() {
-        return ulCodePageRange2;
-    }
-
-    public int getType() {
-        return OS_2;
-    }
+    public int getType() {return OS_2;}
 }

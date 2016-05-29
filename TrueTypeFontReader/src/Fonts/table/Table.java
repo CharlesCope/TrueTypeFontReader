@@ -46,7 +46,7 @@ public interface Table {
 
     // Microsoft Encoding IDs
     public static final short encodingUndefined = 0;
-    public static final short encodingUGL = 1;
+    public static final short encodingUGL = 1; // Windows Unicode
 
     // Macintosh Encoding IDs
     public static final short encodingRoman = 0;

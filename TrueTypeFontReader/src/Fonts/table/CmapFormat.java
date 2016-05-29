@@ -29,17 +29,11 @@ public abstract class CmapFormat {
         return null;
     }
 
-    public int getFormat() {
-        return format;
-    }
+    public int getFormat() {return format;}
 
-    public int getLength() {
-        return length;
-    }
+    public int getLength() {return length;}
 
-    public int getVersion() {
-        return version;
-    }
+    public int getVersion() {return version;}
 
     public abstract int mapCharCode(int charCode);
 

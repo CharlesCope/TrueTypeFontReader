@@ -22,19 +22,45 @@ public class fontToPDFfont {
 		
 		String strBaseFontName = myChcFont.getNameTable().getRecord(NameTable.namePostscriptName);
 		if(strBaseFontName.isEmpty() == false){myPDFFont.setFontBaseName(strBaseFontName);}
-		else{
-			// Do this in case the Postscript value is empty.
-			if(isWindows() == true){}
-			if(isMac() == true){}
-		}
 
-		// Need to find the data in file and set flags.
+
 		myPDFFont.setFixedPitchFlag(myChcFont.getPostTable().getIsFixedPitch());
-		//myPDFFont.setSerifFlag(setFlag);
-		//myPDFFont.setSymbolicFlag(setFlag);
+		
+		/** Only Roman Encoding or Windows uni-code are allowed for a non symbolic font 
+		 *  For symbolic font, no encoding entry is allowed and only one encoding entry is expected into the FontFile CMap
+		 *  Any font whose character set is not a subset of the Adobe standard character set is considered to be symbolic.
+		 *  If the Symbolic flag should be set then the Nonsymbolic flag must be cleared .
+		 * */
+		if(isWindows() == true){
+			if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL)!= null){
+				myPDFFont.setNonsymbolicFlag(true);
+				myPDFFont.setSymbolicFlag(false);}
+			else {
+				myPDFFont.setNonsymbolicFlag(false);
+				myPDFFont.setSymbolicFlag(true);
+			}
+		}
+		if(isMac() == true){
+			if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMacintosh, NameTable.encodingRoman)!= null){
+				myPDFFont.setNonsymbolicFlag(true);
+				myPDFFont.setSymbolicFlag(false);}
+			else {
+				myPDFFont.setNonsymbolicFlag(false);
+				myPDFFont.setSymbolicFlag(true);}
+		}
+		
+		// Apple/Mac platform calls this the Style table and Microsoft Calls it SubFamily.
+		String strStyle = myChcFont.getNameTable().getRecord(NameTable.nameFontSubfamilyName);
+		if (strStyle.toUpperCase().contains("ITALI")== true){myPDFFont.setItalicFlag(true);}
+		else{myPDFFont.setItalicFlag(false);}
+		
+		myPDFFont.setSerifFlag(myChcFont.getOS2Table().getIsSerif());		
+		
+		
+		// Need to find the data in file and set flags.
 		//myPDFFont.setScriptFlag(setFlag);
-		//myPDFFont.setNonsymbolicFlag(setFlag);
-		//myPDFFont.setItalicFlag(myChcFont.getHeadTable().getMacStyle());
+		
+		//
 		//myPDFFont.setAllCapFlag(setFlag);
 		//myPDFFont.setSmallCapFlag(setFlag);
 		//myPDFFont.setForceBoldFlag(setFlag);

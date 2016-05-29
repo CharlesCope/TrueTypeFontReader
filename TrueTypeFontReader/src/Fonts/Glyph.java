@@ -17,21 +17,13 @@ public class Glyph {
         describe(gd);
     }
 
-    public int getAdvanceWidth() {
-        return advanceWidth;
-    }
+    public int getAdvanceWidth() {return advanceWidth;}
 
-    public short getLeftSideBearing() {
-        return leftSideBearing;
-    }
+    public short getLeftSideBearing() {return leftSideBearing;}
 
-    public Point getPoint(int i) {
-        return points[i];
-    }
+    public Point getPoint(int i) {return points[i];}
 
-    public int getPointCount() {
-        return points.length;
-    }
+    public int getPointCount() {return points.length;}
 
     /**
      * Resets the glyph to the TrueType table settings
