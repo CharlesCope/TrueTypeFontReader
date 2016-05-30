@@ -24,7 +24,8 @@ public class PDFFont {
 	private int BBoxUpperRighty = 0;
 	private int intMissingWidth = 0;
 	private int intCapHeight = 0;
-	private int intXHeight = 0;;
+	private int intXHeight = 0;
+	private int intItalicAngle = 0;
 
 	
 	
@@ -143,6 +144,10 @@ public class PDFFont {
 	public void setXHeight(int xHeight){intXHeight  = xHeight;}
 	public String getXHeight(){return "/XHeight " + intXHeight;}
 	
+	public void setItalicAngle(int italicAngle){intItalicAngle = italicAngle;}
+	public String getItalicAngle(){return "/ItalicAngle " + intItalicAngle;}
+
+	
 	public int getBoundingBoxLowerLeftx() {return BBoxLowerLeftx;}
 	public int getBoundingBoxLowerLefty() {return BBoxLowerLefty;}
 	public int getBoundingBoxUpperRightx() {return BBoxUpperRightx;}
@@ -181,6 +186,7 @@ public class PDFFont {
 		strToString += "Character Missing Width >> " + getMissingWidth() + JavaNewLine;
 		strToString += "Capital letters Height >> " + getCapHeight() + JavaNewLine;
 		strToString += "Lower case x Height >> " + getXHeight() + JavaNewLine;
+		strToString += "Italic Angle Slope Right neg number >> " + getItalicAngle() + JavaNewLine;
 		return strToString;
 		
 	}

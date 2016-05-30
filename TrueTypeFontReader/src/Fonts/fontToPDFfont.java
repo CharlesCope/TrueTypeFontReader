@@ -65,7 +65,8 @@ public class fontToPDFfont {
 
 		
 		Glyph MissingWidth = myChcFont.getGlyph(0);
-		myPDFFont.setMissingWidth(pdfScalingFormula(MissingWidth.advanceWidth,intUnitsPerEM));
+		if (MissingWidth != null){myPDFFont.setMissingWidth(pdfScalingFormula(MissingWidth.advanceWidth,intUnitsPerEM));}
+		else{myPDFFont.setMissingWidth(0);}
 		
 		int intVersion = myChcFont.getOS2Table().getVersion();
 		
@@ -80,6 +81,7 @@ public class fontToPDFfont {
 			myPDFFont.setXHeight((int) (.5 * intUnitsPerEM));
 		}
 		
+		myPDFFont.setItalicAngle(myChcFont.getPostTable().getItalicAngle());
 		
 		
 		// If we make it here return the converted file object

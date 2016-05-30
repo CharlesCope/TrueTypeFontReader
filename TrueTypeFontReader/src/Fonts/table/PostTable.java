@@ -357,7 +357,15 @@ public class PostTable implements Table {
      */
     public int getType() {return post; }
 
-    public int getItalicAngle(){return italicAngle;}
+    
+    public int getItalicAngle(){
+    	/** Data stored as mantissa IEEE single precision standard.*/	
+    	if(italicAngle != 0){
+    		String binary = Integer.toBinaryString(italicAngle);
+    		short sResults = (short) Integer.parseInt(binary.substring(0, 16), 2);
+    		return sResults;
+    	}
+    	return italicAngle;}
     
     
 }
