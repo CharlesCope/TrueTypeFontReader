@@ -71,8 +71,8 @@ public class fontToPDFfont {
 		int intVersion = myChcFont.getOS2Table().getVersion();
 		
 		if(intVersion >= 2){
-			myPDFFont.setCapHeight(myChcFont.getOS2Table().getCapHeight());
-			myPDFFont.setXHeight(myChcFont.getOS2Table().getXHeight());
+			myPDFFont.setCapHeight(pdfScalingFormula(myChcFont.getOS2Table().getCapHeight(),intUnitsPerEM));
+			myPDFFont.setXHeight(pdfScalingFormula(myChcFont.getOS2Table().getXHeight(),intUnitsPerEM));
 		}
 		/** NOTE: These are just rule-of-thumb values,in case the xHeight and CapHeight fields aren't available.*/
 		else{
@@ -82,7 +82,14 @@ public class fontToPDFfont {
 		}
 		
 		myPDFFont.setItalicAngle(myChcFont.getPostTable().getItalicAngle());
+		myPDFFont.setAscent(pdfScalingFormula(myChcFont.getHheaTable().getAscender(),intUnitsPerEM));
+		myPDFFont.setDescent(pdfScalingFormula(myChcFont.getHheaTable().getDescender(),intUnitsPerEM));
+		myPDFFont.setLeading(pdfScalingFormula(myChcFont.getHheaTable().getLineGap(),intUnitsPerEM));
+		// When I return.
+		// Line number 810
+		//https://github.com/n9/pdfclown/blob/5176e06baf7e30c80e1cb61c68a00b036ffd1e6a/java/pdfclown.lib/src/org/pdfclown/documents/contents/fonts/OpenFontParser.java
 		
+		System.out.println(myPDFFont.getParameters());
 		
 		// If we make it here return the converted file object
 		return myPDFFont;
@@ -95,6 +102,7 @@ public class fontToPDFfont {
     	
     	return (intAdvanceWidth * 1000) / intUnitsPerEm;
     }
+
 	public static String getOsName(){
 		// The operating system of the host that my Java program is running 
 		if(OS == null) { OS = System.getProperty("os.name"); }

@@ -26,7 +26,9 @@ public class PDFFont {
 	private int intCapHeight = 0;
 	private int intXHeight = 0;
 	private int intItalicAngle = 0;
-
+	private int intAscent = 0;
+	private int intDescent = 0;
+	private int intLeading = 0;
 	
 	
 	/**The Constructor*/
@@ -147,6 +149,14 @@ public class PDFFont {
 	public void setItalicAngle(int italicAngle){intItalicAngle = italicAngle;}
 	public String getItalicAngle(){return "/ItalicAngle " + intItalicAngle;}
 
+	public void setAscent(int Ascent){ intAscent = Ascent;}
+	public String getAscent(){return "/Ascent " + intAscent;}
+	
+	public void setDescent(int Descent){intDescent = Descent;}
+	public String getDescent(){return "/Descent " + intDescent;}
+	
+	public void setLeading(int Leading){intLeading = Leading;}
+	public String getLeading(){return "/Leading " + intLeading;}
 	
 	public int getBoundingBoxLowerLeftx() {return BBoxLowerLeftx;}
 	public int getBoundingBoxLowerLefty() {return BBoxLowerLefty;}
@@ -165,6 +175,22 @@ public class PDFFont {
 	        return Math.ceil((dblValue / intUnitsPerEm) * 1000);    // always round up
 	    }
 	
+    public String getParameters(){
+    	String strResults = getFontDescriptorFlags() + " ";
+    	strResults += getFontBBox() + " ";
+    	strResults += getMissingWidth() + " ";
+    	//strResults +=
+    	//strResults +=
+    	strResults += getItalicAngle() + " ";
+    	strResults += getCapHeight() + " ";
+    	strResults += getXHeight() + " ";
+    	strResults += getAscent() + " ";
+    	strResults += getDescent() + " ";
+    	strResults += getLeading()+ " ";
+    	
+    	return strResults;
+    }
+    
 	/** Need a toString Method for debugging and development */
 	
 	public String toString(){
@@ -187,6 +213,10 @@ public class PDFFont {
 		strToString += "Capital letters Height >> " + getCapHeight() + JavaNewLine;
 		strToString += "Lower case x Height >> " + getXHeight() + JavaNewLine;
 		strToString += "Italic Angle Slope Right neg number >> " + getItalicAngle() + JavaNewLine;
+		strToString += "Ascent maximum height above baseline >> " + getAscent() + JavaNewLine;
+		strToString += "Descent maximum depth below baseline >> " + getDescent() + JavaNewLine;
+		strToString += "spacing between baselines of consecutive lines >> " + getLeading() + JavaNewLine;
+		
 		return strToString;
 		
 	}
