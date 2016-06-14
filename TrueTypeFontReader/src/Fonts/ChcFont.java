@@ -39,11 +39,8 @@ public class ChcFont {
     private NameTable name;
     private PostTable post;
 
-    /**
-     * Constructor
-     */
-    public ChcFont() {
-    }
+    /** Constructor   */
+    public ChcFont() {}
 
     public Table getTable(int tableType) {
         for (int i = 0; i < tables.length; i++) {
@@ -54,53 +51,29 @@ public class ChcFont {
         return null;
     }
 
-    public Os2Table getOS2Table() {
-        return os2;
-    }
+    public Os2Table getOS2Table() {return os2;}
     
-    public CmapTable getCmapTable() {
-        return cmap;
-    }
+    public CmapTable getCmapTable() {return cmap;}
     
-    public HeadTable getHeadTable() {
-        return head;
-    }
+    public HeadTable getHeadTable() {return head;}
     
-    public HheaTable getHheaTable() {
-        return hhea;
-    }
+    public HheaTable getHheaTable() {return hhea;}
     
-    public HmtxTable getHmtxTable() {
-        return hmtx;
-    }
+    public HmtxTable getHmtxTable() {return hmtx;}
     
-    public LocaTable getLocaTable() {
-        return loca;
-    }
+    public LocaTable getLocaTable() {return loca;}
     
-    public MaxpTable getMaxpTable() {
-        return maxp;
-    }
+    public MaxpTable getMaxpTable() {return maxp;}
 
-    public NameTable getNameTable() {
-        return name;
-    }
+    public NameTable getNameTable() {return name;}
 
-    public PostTable getPostTable() {
-        return post;
-    }
+    public PostTable getPostTable() {return post;}
 
-    public int getAscent() {
-        return hhea.getAscender();
-    }
+    public int getAscent() {return hhea.getAscender();}
 
-    public int getDescent() {
-        return hhea.getDescender();
-    }
+    public int getDescent() {return hhea.getDescender();}
 
-    public int getNumGlyphs() {
-        return maxp.getNumGlyphs();
-    }
+    public int getNumGlyphs() {return maxp.getNumGlyphs();}
 
     public Glyph getGlyph(int i) {
         return (glyf.getDescription(i) != null)

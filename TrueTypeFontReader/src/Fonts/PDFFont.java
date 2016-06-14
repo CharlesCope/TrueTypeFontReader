@@ -29,7 +29,7 @@ public class PDFFont {
 	private int intAscent = 0;
 	private int intDescent = 0;
 	private int intLeading = 0;
-	
+	private int intStemV = 0;
 	
 	/**The Constructor*/
 	public PDFFont(){}
@@ -104,9 +104,7 @@ public class PDFFont {
 		return strFontBBox;
 		
 	}
-	
-	
-	
+		
 	public int[] getGlyphWidthsToPDFWidths(){
 		return null;
 		
@@ -158,6 +156,34 @@ public class PDFFont {
 	public void setLeading(int Leading){intLeading = Leading;}
 	public String getLeading(){return "/Leading " + intLeading;}
 	
+	public void setStemV(int StemV){intStemV = StemV;}
+	
+	public String getStemV(){
+		final int ULTRA_LIGHT = 1;
+		final int EXTRA_LIGHT = 2;
+		final int LIGHT = 3;
+		final int SEMI_LIGHT = 4;
+		final int MEDIUM_NORMAL = 5;
+		final int SEMI_BOLD = 6;
+		final int BOLD = 7;
+		final int EXTRA_BOLD = 8;
+		final int ULTRA_BOLD = 9;
+		int intReturnValue = 50;
+		
+		switch (intStemV) {
+		case ULTRA_LIGHT:  intReturnValue = 50;		break;
+		case EXTRA_LIGHT:  intReturnValue = 68;		break;
+		case LIGHT:  intReturnValue = 88;			break;
+		case SEMI_LIGHT:  intReturnValue = 100;		break;
+		case MEDIUM_NORMAL:  intReturnValue = 125;	break;
+		case SEMI_BOLD:  intReturnValue = 135;		break;
+		case BOLD:  intReturnValue = 165;			break;
+		case EXTRA_BOLD:  intReturnValue = 201;		break;
+		case ULTRA_BOLD:  intReturnValue = 241;		break;
+		default: intReturnValue = 50;				break;}
+
+		return "/StemV " + intReturnValue;}
+	
 	public int getBoundingBoxLowerLeftx() {return BBoxLowerLeftx;}
 	public int getBoundingBoxLowerLefty() {return BBoxLowerLefty;}
 	public int getBoundingBoxUpperRightx() {return BBoxUpperRightx;}
@@ -179,7 +205,7 @@ public class PDFFont {
     	String strResults = getFontDescriptorFlags() + " ";
     	strResults += getFontBBox() + " ";
     	strResults += getMissingWidth() + " ";
-    	//strResults +=
+    	strResults += getStemV() + " ";
     	//strResults +=
     	strResults += getItalicAngle() + " ";
     	strResults += getCapHeight() + " ";
@@ -216,6 +242,7 @@ public class PDFFont {
 		strToString += "Ascent maximum height above baseline >> " + getAscent() + JavaNewLine;
 		strToString += "Descent maximum depth below baseline >> " + getDescent() + JavaNewLine;
 		strToString += "spacing between baselines of consecutive lines >> " + getLeading() + JavaNewLine;
+		strToString += "The thickness, measured horizontally, of the dominant vertical stems of glyphs in the font. >>" + getStemV() + JavaNewLine;
 		
 		return strToString;
 		

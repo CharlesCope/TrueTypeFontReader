@@ -88,7 +88,10 @@ public class Os2Table implements Table {
 
     public short getAvgCharWidth() {return xAvgCharWidth;}
 
-    public int getWeightClass() {return usWeightClass;}
+    public int getWeightClass() {
+    	// Only possible good values are 1-9
+    	int firstDigit = Integer.parseInt(Integer.toString(usWeightClass).substring(0, 1));
+    	return firstDigit;}
 
     public int getWidthClass() {return usWidthClass;}
 

@@ -85,6 +85,7 @@ public class fontToPDFfont {
 		myPDFFont.setAscent(pdfScalingFormula(myChcFont.getHheaTable().getAscender(),intUnitsPerEM));
 		myPDFFont.setDescent(pdfScalingFormula(myChcFont.getHheaTable().getDescender(),intUnitsPerEM));
 		myPDFFont.setLeading(pdfScalingFormula(myChcFont.getHheaTable().getLineGap(),intUnitsPerEM));
+		myPDFFont.setStemV(myChcFont.getOS2Table().getWeightClass());
 		// When I return.
 		// Line number 810
 		//https://github.com/n9/pdfclown/blob/5176e06baf7e30c80e1cb61c68a00b036ffd1e6a/java/pdfclown.lib/src/org/pdfclown/documents/contents/fonts/OpenFontParser.java
