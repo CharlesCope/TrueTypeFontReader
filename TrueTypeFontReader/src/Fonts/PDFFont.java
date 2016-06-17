@@ -30,6 +30,8 @@ public class PDFFont {
 	private int intDescent = 0;
 	private int intLeading = 0;
 	private int intStemV = 0;
+	private int intMaxWidth = 0;
+	private int intAvgWidth = 0;
 	
 	/**The Constructor*/
 	public PDFFont(){}
@@ -157,7 +159,6 @@ public class PDFFont {
 	public String getLeading(){return "/Leading " + intLeading;}
 	
 	public void setStemV(int StemV){intStemV = StemV;}
-	
 	public String getStemV(){
 		final int ULTRA_LIGHT = 1;
 		final int EXTRA_LIGHT = 2;
@@ -183,6 +184,12 @@ public class PDFFont {
 		default: intReturnValue = 50;				break;}
 
 		return "/StemV " + intReturnValue;}
+
+	public void setMaxWidth(int MaxWidth){intMaxWidth = MaxWidth;}
+	public String getMaxWidth(){return "/MaxWidth " + intMaxWidth;}
+	
+	public void setAvgWidth(int AvgWidth){intAvgWidth = AvgWidth;}
+	public String getAvgWidth(){return "/AvgWidth " + intAvgWidth;}
 	
 	public int getBoundingBoxLowerLeftx() {return BBoxLowerLeftx;}
 	public int getBoundingBoxLowerLefty() {return BBoxLowerLefty;}
@@ -206,13 +213,14 @@ public class PDFFont {
     	strResults += getFontBBox() + " ";
     	strResults += getMissingWidth() + " ";
     	strResults += getStemV() + " ";
-    	//strResults +=
     	strResults += getItalicAngle() + " ";
     	strResults += getCapHeight() + " ";
     	strResults += getXHeight() + " ";
     	strResults += getAscent() + " ";
     	strResults += getDescent() + " ";
     	strResults += getLeading()+ " ";
+    	strResults += getMaxWidth() + " "; 
+    	strResults += getAvgWidth() + " ";
     	
     	return strResults;
     }
@@ -242,8 +250,9 @@ public class PDFFont {
 		strToString += "Ascent maximum height above baseline >> " + getAscent() + JavaNewLine;
 		strToString += "Descent maximum depth below baseline >> " + getDescent() + JavaNewLine;
 		strToString += "spacing between baselines of consecutive lines >> " + getLeading() + JavaNewLine;
-		strToString += "The thickness, measured horizontally, of the dominant vertical stems of glyphs in the font. >>" + getStemV() + JavaNewLine;
-		
+		strToString += "The thickness, measured horizontally, of the dominant vertical stems of glyphs in the font. >> " + getStemV() + JavaNewLine;
+		strToString += "Maximum advance width value in ‘hmtx’ table. >> " + getMaxWidth()+ JavaNewLine;
+		strToString += "Average weighted advance width of lower case letters and space >> " + getAvgWidth() + JavaNewLine;
 		return strToString;
 		
 	}
