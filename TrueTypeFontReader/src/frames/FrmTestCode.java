@@ -14,12 +14,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 // Code Came from here.
 // http://www.udel.edu/CIS/software/dist/batik-src/xml-batik/sources/org/apache/batik/svggen/
 
+
 import Fonts.PDFFont;
 import Fonts.fontToPDFfont;
+
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+
+
 
 public class FrmTestCode extends JFrame {
 	private static final long serialVersionUID = 3607491399201743045L;
@@ -27,7 +35,10 @@ public class FrmTestCode extends JFrame {
 	private JComboBox<String> cboFonts;
 	private JTextArea txtDisplayResults;
 	private String path;
+	private JScrollPane scrollPaneTable;
 	final public static String JavaNewLine = System.getProperty("line.separator");
+	private JTable fontTable;
+	
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -76,10 +87,35 @@ public class FrmTestCode extends JFrame {
 				
 				PDFFont myPDFFont = fontToPDFfont.ConvertFontFileToPDFFont(fileName);
 				txtDisplayResults.setText(myPDFFont.toString());
+
+				 
+				
+				// Need to get the data from file.
+				fontTable.setModel(new DefaultTableModel(
+						new Object[][] {{"41","65","\u4e02","36","667"}},
+						new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"}	));
+				// Show data center.
+				DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();  
+				dtcr.setHorizontalAlignment(SwingConstants.CENTER);
+				fontTable.getColumnModel().getColumn(0).setCellRenderer(dtcr);
+				fontTable.getColumnModel().getColumn(1).setCellRenderer(dtcr);
+				fontTable.getColumnModel().getColumn(2).setCellRenderer(dtcr);
+				fontTable.getColumnModel().getColumn(3).setCellRenderer(dtcr);
+				fontTable.getColumnModel().getColumn(4).setCellRenderer(dtcr);
+				scrollPaneTable.setViewportView(fontTable);
+				
 			}
 		});
 		btnPDFFontDictionary.setBounds(491, 9, 195, 30);
 		contentPane.add(btnPDFFontDictionary);
+		
+		scrollPaneTable = new JScrollPane();
+		scrollPaneTable.setBounds(15, 234, 670, 128);
+		contentPane.add(scrollPaneTable);
+		
+		fontTable = new JTable();
+		
+		
 		// Give them a list to choose from.
 		listFonts();
 	}
