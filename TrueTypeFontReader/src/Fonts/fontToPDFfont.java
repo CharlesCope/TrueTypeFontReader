@@ -58,7 +58,7 @@ public class fontToPDFfont {
 		myPDFFont.setScriptFlag(myChcFont.getOS2Table().getIsScript());
 		myPDFFont.setSerifFlag(myChcFont.getOS2Table().getIsSerif());		
 		
-		// Need to find the data in file and set flags.
+		// TODO Need to find the data in file and set flags.
 		//myPDFFont.setAllCapFlag(setFlag);
 		//myPDFFont.setSmallCapFlag(setFlag);
 		//myPDFFont.setForceBoldFlag(setFlag);
@@ -88,12 +88,10 @@ public class fontToPDFfont {
 		myPDFFont.setStemV(myChcFont.getOS2Table().getWeightClass());
 		myPDFFont.setMaxWidth(pdfScalingFormula(myChcFont.getHheaTable().getAdvanceWidthMax(),intUnitsPerEM));
 		myPDFFont.setAvgWidth(pdfScalingFormula(myChcFont.getOS2Table().getAvgCharWidth(),intUnitsPerEM));
-		// When I return.
-		// Line number 810
-		//https://github.com/n9/pdfclown/blob/5176e06baf7e30c80e1cb61c68a00b036ffd1e6a/java/pdfclown.lib/src/org/pdfclown/documents/contents/fonts/OpenFontParser.java
-		
-		System.out.println(myPDFFont.getParameters());
-		
+		// TODO Need to get the first character code defined in	the font’s Widths array.
+		myPDFFont.setFirstChar(0);
+		// TODO Need to getThe last character code defined in the font’s Widths array.
+		myPDFFont.setLastChar(255);
 		// If we make it here return the converted file object
 		return myPDFFont;
 		

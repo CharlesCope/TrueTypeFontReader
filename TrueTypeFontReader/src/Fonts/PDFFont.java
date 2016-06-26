@@ -17,6 +17,8 @@ public class PDFFont {
 	private boolean blnAllCapFlag = false;
 	private boolean blnSmallCapFlag = false;
 	private boolean blnForceBoldFlag = false;
+	private int intFirstChar = 0;
+	private int intLastChar = 0;
 	private int intUnitsPerEm = 0;
 	private int BBoxLowerLeftx = 0;
 	private int BBoxLowerLefty = 0;
@@ -32,6 +34,7 @@ public class PDFFont {
 	private int intStemV = 0;
 	private int intMaxWidth = 0;
 	private int intAvgWidth = 0;
+	String JavaNewLine = System.getProperty("line.separator");
 	
 	/**The Constructor*/
 	public PDFFont(){}
@@ -107,10 +110,7 @@ public class PDFFont {
 		
 	}
 		
-	public int[] getGlyphWidthsToPDFWidths(){
-		return null;
-		
-	}
+	public int[] getGlyphWidthsToPDFWidths(){return null;}
 	
 	public void setFontBaseName(String strName){strBaseFontName = strName;}
 	
@@ -136,6 +136,12 @@ public class PDFFont {
 	public int getUnitsPerEm() {return intUnitsPerEm;}
 	
 	public void setUnitsPerEm(int UnitsPerEm) {intUnitsPerEm = UnitsPerEm;}
+	
+	public void setFirstChar(int FirstChar){intFirstChar = FirstChar;}
+	public String getFirstChar(){return "/FirstChar " + intFirstChar;}
+	
+	public void setLastChar(int LastChar){intLastChar = LastChar;}
+	public String getLastChar(){return "/LastChar " + intLastChar;}
 	
 	public void setMissingWidth(int missingWidth){intMissingWidth = missingWidth;}
 	public String getMissingWidth(){return "/MissingWidth " + intMissingWidth;}
@@ -208,8 +214,11 @@ public class PDFFont {
 	        return Math.ceil((dblValue / intUnitsPerEm) * 1000);    // always round up
 	    }
 	
-    public String getParameters(){
-    	String strResults = getFontDescriptorFlags() + " ";
+    public String getFontDictionary(){
+    	
+    	String strResults = getFirstChar()+ JavaNewLine; 
+    	strResults += getLastChar()+ JavaNewLine;
+    	strResults += getFontDescriptorFlags() + " ";
     	strResults += getFontBBox() + " ";
     	strResults += getMissingWidth() + " ";
     	strResults += getStemV() + " ";
@@ -228,10 +237,11 @@ public class PDFFont {
 	/** Need a toString Method for debugging and development */
 	
 	public String toString(){
-		String JavaNewLine = System.getProperty("line.separator");
-		String strToString = "";
 		
-		strToString = "BaseFont Name >> " + strBaseFontName + JavaNewLine;
+		String strToString = "<< Start of PDF font dictionary >> " + JavaNewLine + JavaNewLine;
+		strToString += getFontDictionary()+ JavaNewLine + JavaNewLine;
+		strToString += "<< End PDF Font Dictionary >>" + JavaNewLine;
+		strToString += "BaseFont Name >> " + strBaseFontName + JavaNewLine;
 		strToString += "Flags Values >> " + getFontDescriptorFlags() + JavaNewLine;
 		strToString += "Flags Set Values Fixed Pitch >> " + blnFixedPitchFlag + JavaNewLine;
 		strToString += "Flags Set Values Serif >> " + blnSerifFlag + JavaNewLine;

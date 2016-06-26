@@ -18,10 +18,6 @@ import javax.swing.border.EmptyBorder;
 // Code Came from here.
 // http://www.udel.edu/CIS/software/dist/batik-src/xml-batik/sources/org/apache/batik/svggen/
 
-
-
-
-import Fonts.ChcFont;
 import Fonts.PDFFont;
 import Fonts.fontToPDFfont;
 
@@ -49,23 +45,14 @@ public class FrmTestCode extends JFrame {
 	public FrmTestCode() {
 		setTitle("Test Code Window");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 667, 300);
+		setBounds(100, 100, 710, 459);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JButton btnRunCode = new JButton("Run Code");
-		btnRunCode.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				runCode();
-			}
-		});
-		btnRunCode.setBounds(289, 12, 89, 30);
-		contentPane.add(btnRunCode);
-		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(15, 100, 626, 154);
+		scrollPane.setBounds(15, 52, 670, 128);
 		contentPane.add(scrollPane);
 		
 		txtDisplayResults = new JTextArea();
@@ -74,16 +61,16 @@ public class FrmTestCode extends JFrame {
 		
 		cboFonts = new JComboBox<String>();
 		cboFonts.setBackground(Color.WHITE);
-		cboFonts.setBounds(15, 59, 363, 30);
+		cboFonts.setBounds(118, 9, 363, 30);
 		contentPane.add(cboFonts);
 		
 		JLabel lblNewLabel = new JLabel("Select Font File");
 		lblNewLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		lblNewLabel.setBounds(15, 12, 262, 20);
+		lblNewLabel.setBounds(15, 12, 111, 20);
 		contentPane.add(lblNewLabel);
 		
-		JButton btnTestPDFontCode = new JButton("Test PDF Font Code");
-		btnTestPDFontCode.addActionListener(new ActionListener() {
+		JButton btnPDFFontDictionary = new JButton("Get PDF font dictionary");
+		btnPDFFontDictionary.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String fileName = path + File.separator + "Fonts"+ File.separator +(String) cboFonts.getSelectedItem();
 				
@@ -91,119 +78,12 @@ public class FrmTestCode extends JFrame {
 				txtDisplayResults.setText(myPDFFont.toString());
 			}
 		});
-		btnTestPDFontCode.setBounds(428, 59, 129, 30);
-		contentPane.add(btnTestPDFontCode);
+		btnPDFFontDictionary.setBounds(491, 9, 195, 30);
+		contentPane.add(btnPDFFontDictionary);
 		// Give them a list to choose from.
 		listFonts();
 	}
 	
-	private void runCode(){
-
-		String fileName = path + File.separator + "Fonts"+ File.separator +(String) cboFonts.getSelectedItem();
-		short FamilyID = 1;
-		short SubfamilyID = 2;
-		short FontIdentifierID = 3;
-		
-		if(fileName.isEmpty()){return;}
-		ChcFont myFont = new ChcFont().create(fileName);
-		
-		String strToDisplay = "Name > ";
-		strToDisplay += myFont.getNameTable().getRecord(FamilyID);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Font style > ";
-		strToDisplay += myFont.getNameTable().getRecord(SubfamilyID);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Font Identifier > ";
-		strToDisplay += myFont.getNameTable().getRecord(FontIdentifierID);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags > ";
-		strToDisplay += String.valueOf(myFont.getHeadTable().getFlags());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(0);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(1);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(2);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(3);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(4);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(5);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(6);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(7);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(8);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(9);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(10);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(11);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(12);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(13);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(14);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Flags Bits > ";
-		strToDisplay += myFont.getHeadTable().getFlags(15);
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Ascender > ";
-		strToDisplay += String.valueOf(myFont.getHheaTable().getAscender());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Descender > ";
-		strToDisplay += String.valueOf(myFont.getHheaTable().getDescender());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "min Left Side Bearing > ";
-		strToDisplay += String.valueOf(myFont.getHheaTable().getMinLeftSideBearing());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Number Of HMetrics > ";
-		strToDisplay += String.valueOf(myFont.getHheaTable().getNumberOfHMetrics());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Caret Slope Run > ";
-		strToDisplay += String.valueOf(myFont.getHheaTable().getCaretSlopeRun());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Advance Width Max > ";
-		strToDisplay += String.valueOf(myFont.getHheaTable().getAdvanceWidthMax());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Metric Data Format > ";
-		strToDisplay += String.valueOf(myFont.getHheaTable().getMetricDataFormat());
-		strToDisplay += JavaNewLine;
-		strToDisplay += "Italic Angle > ";
-		strToDisplay += String.valueOf(myFont.getPostTable().getItalicAngle());
-		
-		strToDisplay += JavaNewLine;
-		strToDisplay += "PostScript Name (PDF BaseFont) > ";
-		short PostScriptId = 6;
-		strToDisplay += String.valueOf(myFont.getNameTable().getRecord(PostScriptId));
-		
-		
-		// Here is where we build the output of the code.
-		
-
-		txtDisplayResults.setText(strToDisplay);
-
-		
-	}
 	
 	
 	
