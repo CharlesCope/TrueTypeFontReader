@@ -92,7 +92,7 @@ public class FrmTestCode extends JFrame {
 				
 				// Need to get the data from file.
 				fontTable.setModel(new DefaultTableModel(
-						new Object[][] {{"41","65","\u4e02","36","667"}},
+						new Object[][] {{"41","65","A","36","667"}},
 						new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"}	));
 				// Show data center.
 				DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();  
