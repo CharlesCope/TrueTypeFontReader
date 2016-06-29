@@ -88,10 +88,11 @@ public class fontToPDFfont {
 		myPDFFont.setStemV(myChcFont.getOS2Table().getWeightClass());
 		myPDFFont.setMaxWidth(pdfScalingFormula(myChcFont.getHheaTable().getAdvanceWidthMax(),intUnitsPerEM));
 		myPDFFont.setAvgWidth(pdfScalingFormula(myChcFont.getOS2Table().getAvgCharWidth(),intUnitsPerEM));
-		// TODO Need to get the first character code defined in	the font’s Widths array.
 		myPDFFont.setFirstChar(0);
-		// TODO Need to getThe last character code defined in the font’s Widths array.
-		myPDFFont.setLastChar(255);
+		myPDFFont.setLastChar(myChcFont.getNumGlyphs());
+		
+		System.out.println("The Glyph ID - 11 "  );
+		System.out.println("The PDF Width - " +  pdfScalingFormula(myChcFont.getGlyph(11).getAdvanceWidth(), intUnitsPerEM));
 		// If we make it here return the converted file object
 		return myPDFFont;
 		

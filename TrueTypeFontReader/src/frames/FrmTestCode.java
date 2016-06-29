@@ -88,13 +88,13 @@ public class FrmTestCode extends JFrame {
 				PDFFont myPDFFont = fontToPDFfont.ConvertFontFileToPDFFont(fileName);
 				txtDisplayResults.setText(myPDFFont.toString());
 
-				 
+				myPDFFont.getGlyphWidthsToPDFWidths();
 				
 				// Need to get the data from file.
 				fontTable.setModel(new DefaultTableModel(
 						new Object[][] {{"41","65","A","36","667"}},
 						new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"}	));
-				// Show data center.
+				// Show data center in table.
 				DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();  
 				dtcr.setHorizontalAlignment(SwingConstants.CENTER);
 				fontTable.getColumnModel().getColumn(0).setCellRenderer(dtcr);
