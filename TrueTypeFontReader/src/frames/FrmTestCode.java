@@ -92,6 +92,8 @@ public class FrmTestCode extends JFrame {
 				
 				// Need to get the data from file.
 				// Sarah I hard coded to show you how to display Unicode in table the GlyphID an PDF Width is not correct just for example.
+				
+				
 				fontTable.setModel(new DefaultTableModel(
 						new Object[][] {{"41","65","A","36","667"},{"U+00B0","176",'\u00B0',"12","500"},{"U+3408","13,320",'\u3408',"12","500"}},
 						new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"}	));

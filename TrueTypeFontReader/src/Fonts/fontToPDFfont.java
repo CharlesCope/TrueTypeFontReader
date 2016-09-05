@@ -1,6 +1,9 @@
 package Fonts;
 
+import java.nio.charset.Charset;
 import java.util.Iterator;
+
+import com.sun.xml.internal.ws.util.StringUtils;
 
 import Fonts.table.CmapFormat2;
 import Fonts.table.CmapFormat4;
@@ -41,7 +44,8 @@ public class fontToPDFfont {
 				if (myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL).getFormat() == 4) {
 					CmapFormat4 cmapFormat4 = (CmapFormat4) myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL);
 					for (int i : cmapFormat4.getGlyphIdArray()) {
-						
+						String c = "\\u"+addZeros(Integer.toHexString(i));
+						System.out.println(c);
 					}
 					
 				}
@@ -130,4 +134,21 @@ public class fontToPDFfont {
 	public static boolean isWindows(){return getOsName().startsWith("Windows");}
 	
 	public static boolean isMac(){return getOsName().startsWith("Mac");}
+	
+	public static String addZeros(String a)
+	{
+		int i=0;
+		i=a.length();
+		if ( i == 4 )
+		return a;
+		else
+		{
+		int j= 4 - i;
+		for (int k=0; k<j; k++)
+		{
+		a="0"+a;
+		}
+		return a;
+		}
+		}
 }
