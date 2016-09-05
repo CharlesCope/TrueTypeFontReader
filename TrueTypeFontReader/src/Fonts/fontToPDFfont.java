@@ -107,8 +107,8 @@ public class fontToPDFfont {
 		myPDFFont.setPdfWidth(pdfScalingFormula(myChcFont.getGlyph(11).getAdvanceWidth(),intUnitsPerEM));
 		
 		
-		System.out.println("The Glyph ID - 11 "  );
-		System.out.println("The PDF Width - " +  pdfScalingFormula(myChcFont.getGlyph(11).getAdvanceWidth(), intUnitsPerEM));
+		//System.out.println("The Glyph ID - 11 "  );
+		//System.out.println("The PDF Width - " +  pdfScalingFormula(myChcFont.getGlyph(11).getAdvanceWidth(), intUnitsPerEM));
 		// If we make it here return the converted file object
 		return myPDFFont;
 		
