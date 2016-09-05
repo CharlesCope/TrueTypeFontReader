@@ -34,6 +34,7 @@ public class PDFFont {
 	private int intStemV = 0;
 	private int intMaxWidth = 0;
 	private int intAvgWidth = 0;
+	private int pdfWidth = 0;
 	String JavaNewLine = System.getProperty("line.separator");
 	
 	/**The Constructor*/
@@ -265,6 +266,12 @@ public class PDFFont {
 		strToString += "Average weighted advance width of lower case letters and space >> " + getAvgWidth() + JavaNewLine;
 		return strToString;
 		
+	}
+	public int getPdfWidth() {
+		return pdfWidth;
+	}
+	public void setPdfWidth(int pdfWidth) {
+		this.pdfWidth = pdfWidth;
 	}
 	
 	

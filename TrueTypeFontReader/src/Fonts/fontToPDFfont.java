@@ -1,5 +1,9 @@
 package Fonts;
 
+import java.util.Iterator;
+
+import Fonts.table.CmapFormat2;
+import Fonts.table.CmapFormat4;
 import Fonts.table.NameTable;
 
 
@@ -34,8 +38,17 @@ public class fontToPDFfont {
 		 * */
 		if(isWindows() == true){
 			if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL)!= null){
+				if (myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL).getFormat() == 4) {
+					CmapFormat4 cmapFormat4 = (CmapFormat4) myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL);
+					for (int i : cmapFormat4.getGlyphIdArray()) {
+						
+					}
+					
+				}
 				myPDFFont.setNonsymbolicFlag(true);
-				myPDFFont.setSymbolicFlag(false);}
+				myPDFFont.setSymbolicFlag(false);
+				
+			}
 			else {
 				myPDFFont.setNonsymbolicFlag(false);
 				myPDFFont.setSymbolicFlag(true);
@@ -44,7 +57,8 @@ public class fontToPDFfont {
 		if(isMac() == true){
 			if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMacintosh, NameTable.encodingRoman)!= null){
 				myPDFFont.setNonsymbolicFlag(true);
-				myPDFFont.setSymbolicFlag(false);}
+				myPDFFont.setSymbolicFlag(false);
+			}
 			else {
 				myPDFFont.setNonsymbolicFlag(false);
 				myPDFFont.setSymbolicFlag(true);}
@@ -90,6 +104,8 @@ public class fontToPDFfont {
 		myPDFFont.setAvgWidth(pdfScalingFormula(myChcFont.getOS2Table().getAvgCharWidth(),intUnitsPerEM));
 		myPDFFont.setFirstChar(0);
 		myPDFFont.setLastChar(myChcFont.getNumGlyphs());
+		myPDFFont.setPdfWidth(pdfScalingFormula(myChcFont.getGlyph(11).getAdvanceWidth(),intUnitsPerEM));
+		
 		
 		System.out.println("The Glyph ID - 11 "  );
 		System.out.println("The PDF Width - " +  pdfScalingFormula(myChcFont.getGlyph(11).getAdvanceWidth(), intUnitsPerEM));

@@ -15,7 +15,12 @@ public class CmapFormat4 extends CmapFormat {
     private int[] idDelta;
     private int[] idRangeOffset;
     private int[] glyphIdArray;
-    private int segCount;
+    
+    public int[] getGlyphIdArray() {
+		return glyphIdArray;
+	}
+
+	private int segCount;
     private int first, last;
 
     protected CmapFormat4(RandomAccessFile raf) throws IOException {

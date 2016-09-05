@@ -49,7 +49,7 @@ public class CmapTable implements Table {
 
     public String toString() {
         StringBuffer sb = new StringBuffer().append("cmap\n");
-
+        System.out.println("Im hre");
         // Get each of the index entries
         for (int i = 0; i < numTables; i++) {
             sb.append("\t").append(entries[i].toString()).append("\n");
