@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,8 +21,14 @@ import javax.swing.border.EmptyBorder;
 // http://www.udel.edu/CIS/software/dist/batik-src/xml-batik/sources/org/apache/batik/svggen/
 
 
+
+
+
+
+
 import Fonts.PDFFont;
 import Fonts.fontToPDFfont;
+import Fonts.table.CmapFormat4;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -38,6 +45,7 @@ public class FrmTestCode extends JFrame {
 	private JScrollPane scrollPaneTable;
 	final public static String JavaNewLine = System.getProperty("line.separator");
 	private JTable fontTable;
+	DefaultTableModel model;
 	
 	
 	public static void main(String[] args) {
@@ -93,10 +101,20 @@ public class FrmTestCode extends JFrame {
 				// Need to get the data from file.
 				// Sarah I hard coded to show you how to display Unicode in table the GlyphID an PDF Width is not correct just for example.
 				
-				
-				fontTable.setModel(new DefaultTableModel(
-						new Object[][] {{"41","65","A","36","667"},{"U+00B0","176",'\u00B0',"12","500"},{"U+3408","13,320",'\u3408',"12","500"}},
-						new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"}	));
+				model = (DefaultTableModel) fontTable.getModel();
+				model.setColumnIdentifiers(new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"});
+
+				refreshTableModel();
+				if (myPDFFont.getCmapFormat() != null) {
+					CmapFormat4 cmapFormat4 = (CmapFormat4) myPDFFont.getCmapFormat();
+					for (int i : cmapFormat4.getGlyphIdArray()) {
+//						Convert GlyphID to Hex Value then add Leading zeroes.
+						String temp = "\\u"+addZeros(Integer.toHexString(i));
+						String unicode = "U+"+addZeros(Integer.toHexString(i));
+						char symbol = convertToChar(temp.toCharArray());
+						model.addRow(new Object[]{unicode,(int)symbol,symbol,i,""});
+					}
+				}
 				// Show data center in table.
 				DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();  
 				dtcr.setHorizontalAlignment(SwingConstants.CENTER);
@@ -122,9 +140,36 @@ public class FrmTestCode extends JFrame {
 		// Give them a list to choose from.
 		listFonts();
 	}
+	public static String addZeros(String a)
+	{
+		int i=0;
+		i=a.length();
+		if ( i == 4 )
+		return a;
+		else
+		{
+		int j= 4 - i;
+		for (int k=0; k<j; k++)
+		{
+		a="0"+a;
+		}
+		return a;
+		}
+		}
 	
+	public char convertToChar(char[] charArray){
+		char f = 0;
+		for (char c : charArray) {
+			f+=c;
+		}
+		return f;
+	}
 	
-	
+	public void refreshTableModel(){
+		for (int i = model.getRowCount(); i > 0; i--) {
+			model.removeRow(0);
+		}
+	}
 	
 	public void listFonts(){
 		path = System.getenv("WINDIR");

@@ -1,4 +1,7 @@
 package Fonts;
+
+import Fonts.table.CmapFormat;
+
 /** Notes on Java Data Types.
  * byte: Byte data type is an 8-bit signed,Minimum value is -128, Maximum value is 127 (inclusive) 
  * short:Short data type is a 16-bit signed,Minimum value is -32,768, Maximum value is 32,767 (inclusive)
@@ -35,6 +38,7 @@ public class PDFFont {
 	private int intMaxWidth = 0;
 	private int intAvgWidth = 0;
 	private int pdfWidth = 0;
+	private CmapFormat cmapFormat = null;
 	String JavaNewLine = System.getProperty("line.separator");
 	
 	/**The Constructor*/
@@ -273,8 +277,12 @@ public class PDFFont {
 	public void setPdfWidth(int pdfWidth) {
 		this.pdfWidth = pdfWidth;
 	}
-	
-	
+	public CmapFormat getCmapFormat() {
+		return cmapFormat;
+	}
+	public void setCmapFormat(CmapFormat cmapFormat) {
+		this.cmapFormat = cmapFormat;
+	}
 	
 	
 	
