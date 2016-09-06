@@ -1,13 +1,5 @@
 package Fonts;
 
-import java.nio.charset.Charset;
-import java.util.Iterator;
-
-import javafx.collections.SetChangeListener;
-
-import com.sun.xml.internal.ws.util.StringUtils;
-
-import Fonts.table.CmapFormat2;
 import Fonts.table.CmapFormat4;
 import Fonts.table.NameTable;
 

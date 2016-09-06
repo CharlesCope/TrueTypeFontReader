@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
-import java.util.Iterator;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -14,25 +13,18 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 // Code Came from here.
 // http://www.udel.edu/CIS/software/dist/batik-src/xml-batik/sources/org/apache/batik/svggen/
-
-
-
-
-
-
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
 
 import Fonts.PDFFont;
 import Fonts.fontToPDFfont;
 import Fonts.table.CmapFormat4;
-
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
 
 
 
@@ -95,11 +87,8 @@ public class FrmTestCode extends JFrame {
 				
 				PDFFont myPDFFont = fontToPDFfont.ConvertFontFileToPDFFont(fileName);
 				txtDisplayResults.setText(myPDFFont.toString());
-
+				//TODO: I think I did not finish this part of the code.
 				myPDFFont.getGlyphWidthsToPDFWidths();
-				
-				// Need to get the data from file.
-				// Sarah I hard coded to show you how to display Unicode in table the GlyphID an PDF Width is not correct just for example.
 				
 				model = (DefaultTableModel) fontTable.getModel();
 				model.setColumnIdentifiers(new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"});
@@ -112,6 +101,8 @@ public class FrmTestCode extends JFrame {
 						String temp = "\\u"+addZeros(Integer.toHexString(i));
 						String unicode = "U+"+addZeros(Integer.toHexString(i));
 						char symbol = convertToChar(temp.toCharArray());
+						//TODO: Sarah need to get the PDF Width here...
+						//System.out.println("The PDF Width - " +  pdfScalingFormula(myChcFont.getGlyph(11).getAdvanceWidth(), intUnitsPerEM));
 						model.addRow(new Object[]{unicode,(int)symbol,symbol,i,""});
 					}
 				}
