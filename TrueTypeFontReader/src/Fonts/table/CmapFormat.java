@@ -16,6 +16,7 @@ public abstract class CmapFormat {
 
     protected static CmapFormat create(int format, RandomAccessFile raf)
     throws IOException {
+    	System.out.println(format);
         switch(format) {
             case 0:
             return new CmapFormat0(raf);

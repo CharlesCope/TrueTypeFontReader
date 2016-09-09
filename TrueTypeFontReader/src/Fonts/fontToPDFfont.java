@@ -1,6 +1,9 @@
 package Fonts;
 
+import Fonts.table.CmapFormat0;
 import Fonts.table.CmapFormat4;
+import Fonts.table.CmapFormat2;
+import Fonts.table.CmapFormat6;
 import Fonts.table.NameTable;
 
 
@@ -8,11 +11,20 @@ import Fonts.table.NameTable;
 public class fontToPDFfont {
 	private static String OS = null;
 	private static int intUnitsPerEM; 
+	private static ChcFont myChcFont;
 	
+	public static ChcFont getMyChcFont() {
+		return myChcFont;
+	}
+
+	public static void setMyChcFont(ChcFont myChcFont) {
+		fontToPDFfont.myChcFont = myChcFont;
+	}
+
 	public static PDFFont ConvertFontFileToPDFFont(String strFile){
 		if(strFile.isEmpty()){return null;}
 		// First create the True Type Font Object
-		ChcFont myChcFont = new ChcFont().create(strFile);
+		myChcFont = new ChcFont().create(strFile);
 		// Then create the PDFFont Object to get data from True Type Font Object
 		PDFFont myPDFFont = new PDFFont();
 		myPDFFont.setUnitsPerEm(myChcFont.getHeadTable().getUnitsPerEm());
@@ -37,7 +49,14 @@ public class fontToPDFfont {
 			if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL)!= null){
 				if (myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL).getFormat() == 4) {
 					myPDFFont.setCmapFormat((CmapFormat4) myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL));
-				} 
+				} else if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL).getFormat() == 2){
+					myPDFFont.setCmapFormat((CmapFormat2) myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL));
+				}else if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL).getFormat() == 0){
+					myPDFFont.setCmapFormat((CmapFormat0) myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL));
+				}else if(myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL).getFormat() == 6){
+					myPDFFont.setCmapFormat((CmapFormat6) myChcFont.getCmapTable().getCmapFormat(NameTable.platformMicrosoft, NameTable.encodingUGL));
+				}
+				
 				myPDFFont.setNonsymbolicFlag(true);
 				myPDFFont.setSymbolicFlag(false);
 				
@@ -123,4 +142,29 @@ public class fontToPDFfont {
 	public static boolean isWindows(){return getOsName().startsWith("Windows");}
 	
 	public static boolean isMac(){return getOsName().startsWith("Mac");}
+	
+	public static String addZeros(String a)
+	{
+		int i=0;
+		i=a.length();
+		if ( i == 4 )
+		return a;
+		else
+		{
+		int j= 4 - i;
+		for (int k=0; k<j; k++)
+		{
+		a="0"+a;
+		}
+		return a;
+		}
+		}
+	
+	public static char convertToChar(char[] charArray){
+		char f = 0;
+		for (char c : charArray) {
+			f+=c;
+		}
+		return f;
+	}
 }

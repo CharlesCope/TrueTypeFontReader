@@ -7,7 +7,15 @@ import java.io.RandomAccessFile;
 public class CmapFormat0 extends CmapFormat {
 
     private int[] glyphIdArray = new int[256];
-    private int first, last;
+    public int[] getGlyphIdArray() {
+		return glyphIdArray;
+	}
+
+	public void setGlyphIdArray(int[] glyphIdArray) {
+		this.glyphIdArray = glyphIdArray;
+	}
+
+	private int first, last;
 
     protected CmapFormat0(RandomAccessFile raf) throws IOException {
         super(raf);

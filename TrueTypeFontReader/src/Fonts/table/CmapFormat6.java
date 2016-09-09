@@ -19,7 +19,15 @@ public class CmapFormat6 extends CmapFormat {
     @SuppressWarnings("unused")
 	private short[] glyphIdArray;
 
-    protected CmapFormat6(RandomAccessFile raf) throws IOException {
+    public short[] getGlyphIdArray() {
+		return glyphIdArray;
+	}
+
+	public void setGlyphIdArray(short[] glyphIdArray) {
+		this.glyphIdArray = glyphIdArray;
+	}
+
+	protected CmapFormat6(RandomAccessFile raf) throws IOException {
         super(raf);
         format = 6;
     }

@@ -14,7 +14,15 @@ public class CmapFormat2 extends CmapFormat {
     @SuppressWarnings("unused")
 	private short[] glyphIndexArray;
 
-    protected CmapFormat2(RandomAccessFile raf) throws IOException {
+    public short[] getGlyphIndexArray() {
+		return glyphIndexArray;
+	}
+
+	public void setGlyphIndexArray(short[] glyphIndexArray) {
+		this.glyphIndexArray = glyphIndexArray;
+	}
+
+	protected CmapFormat2(RandomAccessFile raf) throws IOException {
         super(raf);
         format = 2;
     }
