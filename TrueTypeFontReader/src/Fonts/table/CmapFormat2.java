@@ -11,8 +11,7 @@ public class CmapFormat2 extends CmapFormat {
 	private int[] subHeaders1;
     @SuppressWarnings("unused")
 	private int[] subHeaders2;
-    @SuppressWarnings("unused")
-	private short[] glyphIndexArray;
+    private short[] glyphIndexArray;
 
     public short[] getGlyphIndexArray() {
 		return glyphIndexArray;

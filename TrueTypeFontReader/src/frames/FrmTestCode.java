@@ -22,7 +22,6 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-import Fonts.ChcFont;
 import Fonts.PDFFont;
 import Fonts.fontToPDFfont;
 import Fonts.table.CmapFormat0;

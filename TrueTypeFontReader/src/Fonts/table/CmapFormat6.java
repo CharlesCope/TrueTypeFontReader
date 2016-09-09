@@ -16,8 +16,7 @@ public class CmapFormat6 extends CmapFormat {
 	private short firstCode;
     @SuppressWarnings("unused")
 	private short entryCount;
-    @SuppressWarnings("unused")
-	private short[] glyphIdArray;
+    private short[] glyphIdArray;
 
     public short[] getGlyphIdArray() {
 		return glyphIdArray;
