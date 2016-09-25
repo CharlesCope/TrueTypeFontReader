@@ -41,6 +41,7 @@ public class FrmTestCode extends JFrame {
 	final public static String JavaNewLine = System.getProperty("line.separator");
 	private JTable fontTable;
 	DefaultTableModel model;
+	private JLabel lblTableData;
 	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -89,26 +90,28 @@ public class FrmTestCode extends JFrame {
 				
 				PDFFont myPDFFont = fontToPDFfont.ConvertFontFileToPDFFont(fileName);
 				txtDisplayResults.setText(myPDFFont.toString());
-				//TODO: I think I did not finish this part of the code.
-				myPDFFont.getGlyphWidthsToPDFWidths();
-				
+							
 				model = (DefaultTableModel) fontTable.getModel();
 				model.setColumnIdentifiers(new String[] {"Unicode", "Character", "Symbol", "GlyphID", "PDF Width"});
 
 				refreshTableModel();
-//				Check what format of table are we getting
+				//	Check what format of table are we getting
 				if (myPDFFont.getCmapFormat() != null) {
 					if (myPDFFont.getCmapFormat().getFormat() == 4) {
 						CmapFormat4 cmapFormat4 = (CmapFormat4) myPDFFont.getCmapFormat();
-						getGlyphsAndWidths(cmapFormat4.getGlyphIdArray(), myPDFFont);
-					}else if(myPDFFont.getCmapFormat().getFormat() == 2){
+						lblTableData.setText("Cmap Format 4");
+						getGlyphsAndWidths(cmapFormat4.getGlyphIdArray(), myPDFFont);}
+					else if(myPDFFont.getCmapFormat().getFormat() == 2){
 						CmapFormat2 cmapFormat2 = (CmapFormat2) myPDFFont.getCmapFormat();
-						getGlyphsAndWidths(cmapFormat2.getGlyphIndexArray(), myPDFFont);
-					}else if(myPDFFont.getCmapFormat().getFormat() == 0){
+						lblTableData.setText("Cmap Format 2");
+						getGlyphsAndWidths(cmapFormat2.getGlyphIndexArray(), myPDFFont);}
+					else if(myPDFFont.getCmapFormat().getFormat() == 0){
 						CmapFormat0 cmapFormat0 = (CmapFormat0) myPDFFont.getCmapFormat();
-						getGlyphsAndWidths(cmapFormat0.getGlyphIdArray(), myPDFFont);
-					}else if(myPDFFont.getCmapFormat().getFormat() == 6){
+						lblTableData.setText("Cmap Format 0");
+						getGlyphsAndWidths(cmapFormat0.getGlyphIdArray(), myPDFFont);}
+					else if(myPDFFont.getCmapFormat().getFormat() == 6){
 						CmapFormat6 cmapFormat6 = (CmapFormat6) myPDFFont.getCmapFormat();
+						lblTableData.setText("Cmap Format 6");
 						getGlyphsAndWidths(cmapFormat6.getGlyphIdArray(), myPDFFont);
 					}
 				}
@@ -128,8 +131,13 @@ public class FrmTestCode extends JFrame {
 		contentPane.add(btnPDFFontDictionary);
 		
 		scrollPaneTable = new JScrollPane();
-		scrollPaneTable.setBounds(15, 234, 670, 128);
+		scrollPaneTable.setBounds(15, 229, 670, 180);
 		contentPane.add(scrollPaneTable);
+		
+		lblTableData = new JLabel("");
+		lblTableData.setFont(new Font("Tahoma", Font.PLAIN, 14));
+		lblTableData.setBounds(25, 191, 484, 30);
+		contentPane.add(lblTableData);
 		
 		fontTable = new JTable();
 		
@@ -137,30 +145,7 @@ public class FrmTestCode extends JFrame {
 		// Give them a list to choose from.
 		listFonts();
 	}
-	public static String addZeros(String a)
-	{
-		int i=0;
-		i=a.length();
-		if ( i == 4 )
-		return a;
-		else
-		{
-		int j= 4 - i;
-		for (int k=0; k<j; k++)
-		{
-		a="0"+a;
-		}
-		return a;
-		}
-		}
-	
-	public char convertToChar(char[] charArray){
-		char f = 0;
-		for (char c : charArray) {
-			f+=c;
-		}
-		return f;
-	}
+		
 	
 	public void refreshTableModel(){
 		for (int i = model.getRowCount(); i > 0; i--) {
@@ -169,42 +154,22 @@ public class FrmTestCode extends JFrame {
 	}
 	
 	public void getGlyphsAndWidths(int[] glyphIDs, PDFFont myPDFFont){
-		// Got this part of the code to work.
+	
 		int CharCode = 0;
-
-		for(int i= 0 ; i < glyphIDs.length ; i++){
-			//Convert GlyphID to Hex Value then add Leading zeroes.
-			String temp = "\\u"+addZeros(Integer.toHexString(i));
-			String unicode = "U+"+addZeros(Integer.toHexString(i));
-			CharCode = myPDFFont.getCmapFormat().mapCharCode(i);
-			char symbol = (char) Integer.parseInt( temp.substring(2), 16 );
 		
+		for(int i= 0 ; i < glyphIDs.length ; i++){
+			String temp = myPDFFont.getUnicodeEscapeString(i);
+			char symbol = (char) Integer.parseInt( temp.substring(2), 16 );
 			
-			int pdfwidth;
-			try {
-				pdfwidth = fontToPDFfont.pdfScalingFormula(fontToPDFfont.getMyChcFont().getGlyph(CharCode).getAdvanceWidth(), myPDFFont.getUnitsPerEm());
-			} catch (Exception e) {
-				pdfwidth = 0;
-			}
+			String unicode = myPDFFont.getUnicodeString(i);
+			CharCode = myPDFFont.getCmapFormat().mapCharCode(i);
+				
+			int pdfwidth = myPDFFont.getGlyphWidthToPDFWidth(CharCode);
+
 			model.addRow(new Object[]{unicode,i,symbol,CharCode,pdfwidth});
 		}
 	}
-	public void getGlyphsAndWidths(short[] glyphIDs, PDFFont myPDFFont){
-		for (int i : glyphIDs) {
-//			Convert GlyphID to Hex Value then add Leading zeroes.
-			String temp = "\\u"+addZeros(Integer.toHexString(i));
-			String unicode = "U+"+addZeros(Integer.toHexString(i));
-			char symbol = convertToChar(temp.toCharArray());
-
-			int pdfwidth;
-			try {
-				pdfwidth = fontToPDFfont.pdfScalingFormula(fontToPDFfont.getMyChcFont().getGlyph(i).getAdvanceWidth(), myPDFFont.getUnitsPerEm());
-			} catch (Exception e) {
-				pdfwidth = 0;
-			}
-			model.addRow(new Object[]{unicode,(int)symbol,symbol,i,pdfwidth});
-		}
-	}
+	
 	public void listFonts(){
 		path = System.getenv("WINDIR");
 		File directory =  new File(path, "Fonts");

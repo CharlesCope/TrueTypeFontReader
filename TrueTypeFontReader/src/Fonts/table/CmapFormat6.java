@@ -7,24 +7,19 @@ import java.io.RandomAccessFile;
 public class CmapFormat6 extends CmapFormat {
 
     @SuppressWarnings("unused")
-	private short format;
+	private int format;
     @SuppressWarnings("unused")
-	private short length;
+	private int length;
     @SuppressWarnings("unused")
-	private short version;
+	private int version;
     @SuppressWarnings("unused")
-	private short firstCode;
+	private int firstCode;
     @SuppressWarnings("unused")
-	private short entryCount;
-    private short[] glyphIdArray;
+	private int entryCount;
+    private int[] glyphIdArray;
 
-    public short[] getGlyphIdArray() {
-		return glyphIdArray;
-	}
-
-	public void setGlyphIdArray(short[] glyphIdArray) {
-		this.glyphIdArray = glyphIdArray;
-	}
+    public int[] getGlyphIdArray() {return glyphIdArray;}
+	public void setGlyphIdArray(int[] glyphIdArray) {this.glyphIdArray = glyphIdArray;}
 
 	protected CmapFormat6(RandomAccessFile raf) throws IOException {
         super(raf);

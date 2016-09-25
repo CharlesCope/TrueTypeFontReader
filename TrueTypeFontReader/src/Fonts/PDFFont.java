@@ -115,8 +115,14 @@ public class PDFFont {
 		
 	}
 		
-	public int[] getGlyphWidthsToPDFWidths(){return null;}
-	
+	public int getGlyphWidthToPDFWidth(int CharCode){
+		try {
+			return fontToPDFfont.pdfScalingFormula(fontToPDFfont.getMyChcFont().getGlyph(CharCode).getAdvanceWidth(), intUnitsPerEm);
+		} catch (Exception e) {
+			return 0;
+		}
+	}
+
 	public void setFontBaseName(String strName){strBaseFontName = strName;}
 	
 	/** Our Flags for the font Descriptor */
@@ -271,19 +277,28 @@ public class PDFFont {
 		return strToString;
 		
 	}
-	public int getPdfWidth() {
-		return pdfWidth;
-	}
-	public void setPdfWidth(int pdfWidth) {
-		this.pdfWidth = pdfWidth;
-	}
-	public CmapFormat getCmapFormat() {
-		return cmapFormat;
-	}
-	public void setCmapFormat(CmapFormat cmapFormat) {
-		this.cmapFormat = cmapFormat;
-	}
+	public int getPdfWidth() {return pdfWidth;}
 	
+	public void setPdfWidth(int pdfWidth) {this.pdfWidth = pdfWidth;}
+	
+	public CmapFormat getCmapFormat() {return cmapFormat;}
+	
+	public void setCmapFormat(CmapFormat cmapFormat) {this.cmapFormat = cmapFormat;}
+	
+	public String getUnicodeEscapeString(int intValue){return "\\u"+ addZeros(Integer.toHexString(intValue));}
+	
+	public String getUnicodeString(int intValue){return "U+"+addZeros(Integer.toHexString(intValue));}
+	
+	private String addZeros(String a){
+		int i = 0;
+		i = a.length();
+		if ( i == 4 ){return a;}
+		else{
+			int j= 4 - i;
+			for (int k=0; k<j; k++){a = "0" + a;}
+			return a;
+		}
+	}
 	
 	
 }
