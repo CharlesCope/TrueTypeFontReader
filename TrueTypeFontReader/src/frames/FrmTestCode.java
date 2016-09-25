@@ -169,20 +169,24 @@ public class FrmTestCode extends JFrame {
 	}
 	
 	public void getGlyphsAndWidths(int[] glyphIDs, PDFFont myPDFFont){
-		for (int i : glyphIDs) {
-//			Convert GlyphID to Hex Value then add Leading zeroes.
+		// Got this part of the code to work.
+		int CharCode = 0;
+
+		for(int i= 0 ; i < glyphIDs.length ; i++){
+			//Convert GlyphID to Hex Value then add Leading zeroes.
 			String temp = "\\u"+addZeros(Integer.toHexString(i));
 			String unicode = "U+"+addZeros(Integer.toHexString(i));
-			char symbol = convertToChar(temp.toCharArray());
-//			TODO: Sarah need to get the PDF Width here...
-//			Calculate the pdf widths per glyph using their glyphID
+			CharCode = myPDFFont.getCmapFormat().mapCharCode(i);
+			char symbol = (char) Integer.parseInt( temp.substring(2), 16 );
+		
+			
 			int pdfwidth;
 			try {
-				pdfwidth = fontToPDFfont.pdfScalingFormula(fontToPDFfont.getMyChcFont().getGlyph(i).getAdvanceWidth(), myPDFFont.getUnitsPerEm());
+				pdfwidth = fontToPDFfont.pdfScalingFormula(fontToPDFfont.getMyChcFont().getGlyph(CharCode).getAdvanceWidth(), myPDFFont.getUnitsPerEm());
 			} catch (Exception e) {
 				pdfwidth = 0;
 			}
-			model.addRow(new Object[]{unicode,(int)symbol,symbol,i,pdfwidth});
+			model.addRow(new Object[]{unicode,i,symbol,CharCode,pdfwidth});
 		}
 	}
 	public void getGlyphsAndWidths(short[] glyphIDs, PDFFont myPDFFont){
@@ -191,8 +195,7 @@ public class FrmTestCode extends JFrame {
 			String temp = "\\u"+addZeros(Integer.toHexString(i));
 			String unicode = "U+"+addZeros(Integer.toHexString(i));
 			char symbol = convertToChar(temp.toCharArray());
-//			TODO: Sarah need to get the PDF Width here...
-//			Calculate the pdf widths per glyph using their glyphID
+
 			int pdfwidth;
 			try {
 				pdfwidth = fontToPDFfont.pdfScalingFormula(fontToPDFfont.getMyChcFont().getGlyph(i).getAdvanceWidth(), myPDFFont.getUnitsPerEm());

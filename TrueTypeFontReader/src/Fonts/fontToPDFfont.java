@@ -1,8 +1,8 @@
 package Fonts;
 
 import Fonts.table.CmapFormat0;
-import Fonts.table.CmapFormat4;
 import Fonts.table.CmapFormat2;
+import Fonts.table.CmapFormat4;
 import Fonts.table.CmapFormat6;
 import Fonts.table.NameTable;
 
@@ -125,7 +125,7 @@ public class fontToPDFfont {
 		return myPDFFont;
 		
 	}
-	   
+	
     public static int pdfScalingFormula(int intAdvanceWidth, int intUnitsPerEm){
     	// Avoid divide by zero error.
     	if(intAdvanceWidth == 0 ){return 0;}
@@ -133,6 +133,7 @@ public class fontToPDFfont {
     	return (intAdvanceWidth * 1000) / intUnitsPerEm;
     }
 
+    
 	public static String getOsName(){
 		// The operating system of the host that my Java program is running 
 		if(OS == null) { OS = System.getProperty("os.name"); }

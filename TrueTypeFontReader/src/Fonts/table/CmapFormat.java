@@ -2,7 +2,7 @@ package Fonts.table;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
-
+/** Can not make object out of this class it only a template for a concrete class.**/
 public abstract class CmapFormat {
 
     protected int format;
@@ -10,13 +10,18 @@ public abstract class CmapFormat {
     protected int version;
 
     protected CmapFormat(RandomAccessFile raf) throws IOException {
-        length = raf.readUnsignedShort();
+    	//This is the length in bytes of the table.
+    	length = raf.readUnsignedShort();
+        /**
+    	 * It was originally suggested that a version number of 0 is used to indicate
+    	 * that only encoding sub tables of types 0 through 6 are present in the 'cmap' table.
+    	 * This suggestion is now dropped. All 'cmap' tables should set the version number to 0.  
+    	 */
         version = raf.readUnsignedShort();
     }
 
     protected static CmapFormat create(int format, RandomAccessFile raf)
     throws IOException {
-    	System.out.println(format);
         switch(format) {
             case 0:
             return new CmapFormat0(raf);

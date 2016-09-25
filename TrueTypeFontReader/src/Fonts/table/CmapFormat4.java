@@ -10,22 +10,18 @@ public class CmapFormat4 extends CmapFormat {
     private int searchRange;
     private int entrySelector;
     private int rangeShift;
+    private int segCount;
+    private int first, last, intCount;
     private int[] endCode;
     private int[] startCode;
     private int[] idDelta;
     private int[] idRangeOffset;
     private int[] glyphIdArray;
-    
-    public int[] getGlyphIdArray() {
-		return glyphIdArray;
-	}
-
-	private int segCount;
-    private int first, last;
+  
 
     protected CmapFormat4(RandomAccessFile raf) throws IOException {
-        super(raf);
-        format = 4;
+    	super(raf);
+    	format = 4;
         segCountX2 = raf.readUnsignedShort();
         segCount = segCountX2 / 2;
         endCode = new int[segCount];
@@ -36,33 +32,37 @@ public class CmapFormat4 extends CmapFormat {
         entrySelector = raf.readUnsignedShort();
         rangeShift = raf.readUnsignedShort();
         last = -1;
+       
+        // Ending character code for each segment, last = 0xFFFF.
         for (int i = 0; i < segCount; i++) {
             endCode[i] = raf.readUnsignedShort();
             if (endCode[i] > last) last = endCode[i];
         }
-        raf.readUnsignedShort(); // reservePad
+        // reserve Pad This value should be zero
+        raf.readUnsignedShort(); 
+       
+        // Starting character code for each segment
         for (int i = 0; i < segCount; i++) {
             startCode[i] = raf.readUnsignedShort();
             if ((i==0 ) || (startCode[i] < first)) first = startCode[i];
         }
-        for (int i = 0; i < segCount; i++) {
-            idDelta[i] = raf.readUnsignedShort();
-        }
-        for (int i = 0; i < segCount; i++) {
-            idRangeOffset[i] = raf.readUnsignedShort();
-        }
+        // Delta for all character codes in segment
+        for (int i = 0; i < segCount; i++) {idDelta[i] = raf.readUnsignedShort();}
+        // Offset in bytes to glyph indexArray, or 0
+        for (int i = 0; i < segCount; i++) {idRangeOffset[i] = raf.readUnsignedShort();}
 
+        
         // Whatever remains of this header belongs in glyphIdArray
-        int count = (length - 16 - (segCount*8)) / 2;
-        glyphIdArray = new int[count];
-        for (int i = 0; i < count; i++) {
-            glyphIdArray[i] = raf.readUnsignedShort();
-        }
+        intCount = (length - 16 - (segCount*8)) / 2;
+        glyphIdArray = new int[intCount];
+        for (int i = 0; i < intCount; i++) {glyphIdArray[i] = raf.readUnsignedShort();}
     }
 
     public int getFirst() { return first; }
     public int getLast()  { return last; }
-
+    public int getGlyphCount(){return intCount;}
+    public int[] getGlyphIdArray() {return glyphIdArray;}
+    
     public int mapCharCode(int charCode) {
         try {
             /*
