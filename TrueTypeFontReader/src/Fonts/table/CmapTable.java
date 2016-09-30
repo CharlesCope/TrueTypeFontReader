@@ -2,6 +2,8 @@ package Fonts.table;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.LinkedList;
+import java.util.List;
 
 
 public class CmapTable implements Table {
@@ -11,6 +13,7 @@ public class CmapTable implements Table {
     private int numTables;
     private CmapIndexEntry[] entries;
     private CmapFormat[] formats;
+    private List<CmapSubTable> subTables = new LinkedList<>();
 
     protected CmapTable(DirectoryEntry de, RandomAccessFile raf) throws IOException {
         raf.seek(de.getOffset());
@@ -30,7 +33,11 @@ public class CmapTable implements Table {
         // Get each of the index entries
         for (int i = 0; i < numTables; i++) {
             entries[i] = new CmapIndexEntry(raf);
-            System.out.println(entries[i].toString());
+            CmapSubTable cmapSubTable = new CmapSubTable();
+            cmapSubTable.setPlatformEncodingId(entries[i].getEncodingId());
+            cmapSubTable.setPlatformId(entries[i].getPlatformId());
+            cmapSubTable.setSubTableOffset(entries[i].getOffset());
+            subTables.add(cmapSubTable);
         }
 
         // Get each of the tables
