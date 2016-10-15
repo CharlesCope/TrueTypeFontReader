@@ -89,6 +89,10 @@ public class FrmTestCode extends JFrame {
 				String fileName = path + File.separator + "Fonts"+ File.separator +(String) cboFonts.getSelectedItem();
 				
 				PDFFont myPDFFont = fontToPDFfont.ConvertFontFileToPDFFont(fileName);
+				// Table need to be set as same font to show the correct symbols 
+				Font font = new Font (myPDFFont.getFontFamilyName(), Font.TRUETYPE_FONT, 14);
+				fontTable.setFont(font);
+				
 				txtDisplayResults.setText(myPDFFont.toString());
 							
 				model = (DefaultTableModel) fontTable.getModel();

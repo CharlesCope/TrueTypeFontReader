@@ -10,6 +10,7 @@ import Fonts.table.CmapFormat;
 public class PDFFont {
 	
 	private String strBaseFontName = "";
+	private String strFontFamilyName = "";
 	private String strFontBBox = "";
 	private boolean blnFixedPitchFlag = false;
 	private boolean blnSerifFlag = false;
@@ -60,6 +61,7 @@ public class PDFFont {
 	 * Decimal Value = 262178
 	 * Flags Set 2,6,19
 	*/ 
+	public String getFontFamilyName(){return strFontFamilyName;}
 	public String getFontDescriptorFlags(){
 		
 		// big-endian string
@@ -124,6 +126,8 @@ public class PDFFont {
 	}
 
 	public void setFontBaseName(String strName){strBaseFontName = strName;}
+	
+	public void setFontFamilyName(String strName){strFontFamilyName = strName;}
 	
 	/** Our Flags for the font Descriptor */
 	public void setFixedPitchFlag(boolean setFlag){blnFixedPitchFlag = setFlag;}

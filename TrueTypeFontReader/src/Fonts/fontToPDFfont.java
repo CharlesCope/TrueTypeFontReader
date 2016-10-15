@@ -35,8 +35,10 @@ public class fontToPDFfont {
 		myPDFFont.setBoundingBoxUpperRighty(myChcFont.getHeadTable().getYMax());
 		
 		String strBaseFontName = myChcFont.getNameTable().getRecord(NameTable.namePostscriptName);
+		String strFontFamilyName = myChcFont.getNameTable().getRecord(NameTable.nameFontFamilyName);
+		
 		if(strBaseFontName.isEmpty() == false){myPDFFont.setFontBaseName(strBaseFontName);}
-
+		if(strFontFamilyName.isEmpty() == false){myPDFFont.setFontFamilyName(strFontFamilyName);}
 
 		myPDFFont.setFixedPitchFlag(myChcFont.getPostTable().getIsFixedPitch());
 		
