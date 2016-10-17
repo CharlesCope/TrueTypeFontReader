@@ -33,13 +33,13 @@ public class CmapTable implements Table {
             System.out.println(entries[i].toString());
         }
 
-        // Get each of the tables
+   
         for (int i = 0; i < numTables; i++) {
             raf.seek(fp + entries[i].getOffset());
             int format = raf.readUnsignedShort();
-            System.out.println("The Format is " + format);
             formats[i] = CmapFormat.create(format, raf);
         }
+        
     }
 
     public CmapFormat getCmapFormat(short platformId, short encodingId) {

@@ -2,6 +2,9 @@ package Fonts.table;
 
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map.Entry;
 
 import Fonts.ChcFont;
 
@@ -13,13 +16,14 @@ public class CmapFormat4 extends CmapFormat {
     private int entrySelector;
     private int rangeShift;
     private int segCount;
-    private int first, last, intCount;
+    private int first, last;
     private int[] endCode;
     private int[] startCode;
     private int[] idDelta;
     private int[] idRangeOffset;
-    private int[] glyphIdArray;
-  
+    private  HashMap<Integer, Integer> tmpGlyphToChar;
+    private  HashMap<Integer, Integer> characterCodeToGlyphId;
+    private int[] glyphIdToCharacterCode;
 
     protected CmapFormat4(RandomAccessFile raf) throws IOException {
     	super(raf);
@@ -34,76 +38,95 @@ public class CmapFormat4 extends CmapFormat {
         entrySelector = raf.readUnsignedShort();
         rangeShift = raf.readUnsignedShort();
         last = -1;
-       System.out.println("This is a test " + ChcFont.intGlyphCount);
+       
+        // Load up the array's
         // Ending character code for each segment, last = 0xFFFF.
-        for (int i = 0; i < segCount; i++) {
-            endCode[i] = raf.readUnsignedShort();
-            if (endCode[i] > last) last = endCode[i];
-        }
+        for (int i = 0; i < segCount; i++) {endCode[i] = raf.readUnsignedShort();
+            if (endCode[i] > last) last = endCode[i];}
+        
         // reserve Pad This value should be zero
         raf.readUnsignedShort(); 
        
         // Starting character code for each segment
-        for (int i = 0; i < segCount; i++) {
-            startCode[i] = raf.readUnsignedShort();
-            if ((i==0 ) || (startCode[i] < first)) first = startCode[i];
-        }
+        for (int i = 0; i < segCount; i++) {startCode[i] = raf.readUnsignedShort();
+            if ((i==0 ) || (startCode[i] < first)) first = startCode[i];}
         // Delta for all character codes in segment
         for (int i = 0; i < segCount; i++) {idDelta[i] = raf.readUnsignedShort();}
         // Offset in bytes to glyph indexArray, or 0
         for (int i = 0; i < segCount; i++) {idRangeOffset[i] = raf.readUnsignedShort();}
 
+        tmpGlyphToChar = new HashMap<Integer, Integer>(ChcFont.intGlyphCount);
+        characterCodeToGlyphId = new HashMap<Integer, Integer>(ChcFont.intGlyphCount);
+       
+        int maxGlyphId = 0;
+
+        long currentPosition = raf.getFilePointer();
         
-        // Whatever remains of this header belongs in glyphIdArray
-        intCount = (length - 16 - (segCount*8)) / 2;
-        glyphIdArray = new int[intCount];
-        for (int i = 0; i < intCount; i++) {glyphIdArray[i] = raf.readUnsignedShort();}
+        for (int intSegCounter = 0; intSegCounter < segCount; intSegCounter++){
+            
+        	int start = startCode[intSegCounter];
+            int end = endCode[intSegCounter];
+            int delta = idDelta[intSegCounter];
+            int rangeOffset = idRangeOffset[intSegCounter];
+            
+            if (start != 65535 && end != 65535){
+                for (int intCounter = start; intCounter <= end; intCounter++){
+                    if (rangeOffset == 0){
+                        int glyphid = (intCounter + delta) & 0xFFFF;
+                        maxGlyphId = Math.max(glyphid, maxGlyphId);
+                        tmpGlyphToChar.put(glyphid, intCounter);
+                        characterCodeToGlyphId.put(intCounter, glyphid);
+                    }
+                    else{
+                        long glyphOffset = currentPosition + ((rangeOffset / 2) +
+                                (intCounter - start) + (intSegCounter - segCount)) * 2;
+                        
+                        raf.seek(glyphOffset);
+                        int glyphIndex = raf.readUnsignedShort();
+                        if (glyphIndex != 0){
+                            glyphIndex = (glyphIndex + delta) & 0xFFFF;
+                            if (!tmpGlyphToChar.containsKey(glyphIndex)){
+                                maxGlyphId = Math.max(glyphIndex, maxGlyphId);
+                                tmpGlyphToChar.put(glyphIndex, intCounter);
+                                characterCodeToGlyphId.put(intCounter, glyphIndex);
+                            }
+                        }
+                    }
+                }
+            }// End start end Loop
+        }// End segCount Loop
+        
+        buildGlyphIdToCharacterCodeLookup(tmpGlyphToChar, maxGlyphId);
     }
 
     public int getFirst() { return first; }
     public int getLast()  { return last; }
-    public int getGlyphCount(){return intCount;}
-    public int[] getGlyphIdArray() {return glyphIdArray;}
+    public int getGlyphCount(){return glyphIdToCharacterCode.length;}
+    public int[] getGlyphIdArray() {return glyphIdToCharacterCode;}
     
     public int mapCharCode(int charCode) {
-        try {
-            /*
-              Quoting :
-              http://developer.apple.com/fonts/TTRefMan/RM06/Chap6cmap.html#Surrogates
-               
-              The original architecture of the Unicode Standard
-              allowed for all encoded characters to be represented
-              using sixteen bit code points. This allowed for up to
-              65,354 characters to be encoded. (Unicode code points
-              U+FFFE and U+FFFF are reserved and unavailable to
-              represent characters. For more details, see The Unicode
-              Standard.)
-               
-              My comment : Isn't there a typo here ? Shouldn't we
-              rather read 65,534 ?
-              */
-            if ((charCode < 0) || (charCode >= 0xFFFE))
-                return 0;
+    	 if (characterCodeToGlyphId.containsKey(charCode)) {
+    		 return characterCodeToGlyphId.get(charCode); } 
+    	 else {return 0 ;
+    	 }
+    }
 
-            for (int i = 0; i < segCount; i++) {
-                if (endCode[i] >= charCode) {
-                    if (startCode[i] <= charCode) {
-                        if (idRangeOffset[i] > 0) {
-                            return glyphIdArray[idRangeOffset[i]/2 + 
-                                                (charCode - startCode[i]) -
-                                                (segCount - i)];
-                        } else {
-                            return (idDelta[i] + charCode) % 65536;
-                        }
-                    } else {
-                        break;
-                    }
-                }
-            }
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.err.println("error: Array out of bounds - " + e.getMessage());
+    private void buildGlyphIdToCharacterCodeLookup(HashMap<Integer, Integer> tmpGlyphToChar, int maxGlyphId){
+        glyphIdToCharacterCode = newGlyphIdToCharacterCode(maxGlyphId + 1);
+        for (Entry<Integer, Integer> entry : tmpGlyphToChar.entrySet())
+        {
+            // link the glyphId with the right character code
+            glyphIdToCharacterCode[entry.getKey()] = entry.getValue();
         }
-        return 0;
+    }
+    /**
+     * Workaround for the fact that glyphIdToCharacterCode doesn't distinguish between
+     * missing character codes and code 0.
+     */
+    private int[] newGlyphIdToCharacterCode(int size){
+        int[] gidToCode = new int[size];
+        Arrays.fill(gidToCode, -1);
+        return gidToCode;
     }
 
     public String toString() {
