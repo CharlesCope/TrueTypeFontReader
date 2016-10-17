@@ -3,6 +3,8 @@ package Fonts.table;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import Fonts.ChcFont;
+
 public class CmapFormat4 extends CmapFormat {
 
     public  int language;
@@ -32,7 +34,7 @@ public class CmapFormat4 extends CmapFormat {
         entrySelector = raf.readUnsignedShort();
         rangeShift = raf.readUnsignedShort();
         last = -1;
-       
+       System.out.println("This is a test " + ChcFont.intGlyphCount);
         // Ending character code for each segment, last = 0xFFFF.
         for (int i = 0; i < segCount; i++) {
             endCode[i] = raf.readUnsignedShort();

@@ -22,10 +22,8 @@ import Fonts.table.TableFactory;
  * The TrueType font.
  */
 public class ChcFont {
-
+	public static int intGlyphCount ;
     private String path;
-//    private Interpreter interp = null;
-//    private Parser parser = null;
     private TableDirectory tableDirectory = null;
     private Table[] tables;
     private Os2Table os2;
@@ -109,33 +107,27 @@ public class ChcFont {
             tableDirectory = new TableDirectory(raf);
             tables = new Table[tableDirectory.getNumTables()];
 
-            // Load each of the tables
-            for (int i = 0; i < tableDirectory.getNumTables(); i++) {
-                tables[i] = TableFactory.create
-                    (tableDirectory.getEntry(i), raf);
-            }
+            // Load Only the tables needed and in correct order to get needed information.
+            os2  = (Os2Table) TableFactory.create(tableDirectory.getEntryByTag(Table.OS_2), raf);
+            maxp = (MaxpTable) TableFactory.create(tableDirectory.getEntryByTag(Table.maxp), raf);
+            intGlyphCount = maxp.getNumGlyphs();
+            cmap = (CmapTable) TableFactory.create(tableDirectory.getEntryByTag(Table.cmap), raf);
+            glyf = (GlyfTable) TableFactory.create(tableDirectory.getEntryByTag(Table.glyf), raf);
+            head = (HeadTable) TableFactory.create(tableDirectory.getEntryByTag(Table.head), raf);
+            hhea = (HheaTable) TableFactory.create(tableDirectory.getEntryByTag(Table.hhea), raf);
+            hmtx = (HmtxTable) TableFactory.create(tableDirectory.getEntryByTag(Table.hmtx), raf);
+            loca = (LocaTable) TableFactory.create(tableDirectory.getEntryByTag(Table.loca), raf);
+            name = (NameTable) TableFactory.create(tableDirectory.getEntryByTag(Table.name), raf);
+            post = (PostTable) TableFactory.create(tableDirectory.getEntryByTag(Table.post), raf);
             raf.close();
-
-            // Get references to commonly used tables
-            os2  = (Os2Table) getTable(Table.OS_2);
-            cmap = (CmapTable) getTable(Table.cmap);
-            glyf = (GlyfTable) getTable(Table.glyf);
-            head = (HeadTable) getTable(Table.head);
-            hhea = (HheaTable) getTable(Table.hhea);
-            hmtx = (HmtxTable) getTable(Table.hmtx);
-            loca = (LocaTable) getTable(Table.loca);
-            maxp = (MaxpTable) getTable(Table.maxp);
-            name = (NameTable) getTable(Table.name);
-            post = (PostTable) getTable(Table.post);
 
             // Initialize the tables that require it
             hmtx.init(hhea.getNumberOfHMetrics(), 
-                      maxp.getNumGlyphs() - hhea.getNumberOfHMetrics());
-            loca.init(maxp.getNumGlyphs(), head.getIndexToLocFormat() == 0);
-            glyf.init(maxp.getNumGlyphs(), loca);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+            		intGlyphCount - hhea.getNumberOfHMetrics());
+            loca.init(intGlyphCount, head.getIndexToLocFormat() == 0);
+            glyf.init(intGlyphCount, loca);
+     
+        } catch (IOException e) {e.printStackTrace();}
     }
     
     public static ChcFont create() {

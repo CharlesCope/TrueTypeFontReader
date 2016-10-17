@@ -37,6 +37,7 @@ public class CmapTable implements Table {
         for (int i = 0; i < numTables; i++) {
             raf.seek(fp + entries[i].getOffset());
             int format = raf.readUnsignedShort();
+            System.out.println("The Format is " + format);
             formats[i] = CmapFormat.create(format, raf);
         }
     }
