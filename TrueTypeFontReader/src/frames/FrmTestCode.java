@@ -160,18 +160,25 @@ public class FrmTestCode extends JFrame {
 	public void getGlyphsAndWidths(int[] glyphIDs, PDFFont myPDFFont){
 	
 		int CharCode = 0;
+		// Hard Code the first row
+		String temp = myPDFFont.getUnicodeEscapeString(0);
+		char symbol = (char) Integer.parseInt( temp.substring(2), 16 );
+		String unicode = myPDFFont.getUnicodeString(0);
+		CharCode = myPDFFont.getCmapFormat().mapCharCode(0);
+		int pdfwidth = myPDFFont.getGlyphWidthToPDFWidth(CharCode);
+		model.addRow(new Object[]{unicode,0,symbol,CharCode,pdfwidth});
 		
-		for(int i= 0 ; i < glyphIDs.length ; i++){
-			String temp = myPDFFont.getUnicodeEscapeString(i);
-			char symbol = (char) Integer.parseInt( temp.substring(2), 16 );
-			
-			String unicode = myPDFFont.getUnicodeString(i);
+		for(int i= 1 ; i < 65535 ; i++){
+			temp = myPDFFont.getUnicodeEscapeString(i);
+			symbol = (char) Integer.parseInt( temp.substring(2), 16 );
+			unicode = myPDFFont.getUnicodeString(i);
 			CharCode = myPDFFont.getCmapFormat().mapCharCode(i);
-				
-			int pdfwidth = myPDFFont.getGlyphWidthToPDFWidth(CharCode);
-
-			model.addRow(new Object[]{unicode,i,symbol,CharCode,pdfwidth});
+			if(CharCode > 0 ){
+				pdfwidth = myPDFFont.getGlyphWidthToPDFWidth(CharCode);
+				model.addRow(new Object[]{unicode,i,symbol,CharCode,pdfwidth});
+			}
 		}
+		System.out.println("The Table has " + model.getRowCount()+ " Rows");
 	}
 	
 	public void listFonts(){
